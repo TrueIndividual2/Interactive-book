@@ -1,0 +1,231 @@
+		<span class="chapter-title">Chapter 8: Browser Object Model (BOM)</span>
+
+		<span>
+			The Browser Object Model (BOM) in JavaScript is used to interact with the browser itself. It has one main
+			class called "window" which represents the browsers window. Every variable, class, function etc. you create
+			with JavaScript, becames a member of the window object. If HTML document contains frame or iframe, browser
+			creates additional window objects for each frame.
+		</span>
+
+		<span>
+			Even though there is no official standard for the BOM, almost all modern browsers have implemented same
+			methods and properties for JavaScript interactivity.
+		</span>
+
+		<span>
+			You can use shorthand syntax when using window object by omitting the window class in code. For example,
+			you can display alert box with syntax:
+		</span>
+
+<pre><code>window.alert('This is an alertbox');</code></pre>
+
+<span>OR</span>
+
+<pre><code>alert('This is an alertbox');</code></pre>
+
+		<span class="chapter-section-title">Common methods of window object:</span>
+
+<pre class="no-style">
+&bull; alert(message)                         - Displays alert box with message and OK button
+&bull; confirm(message)                       - Displays confirm box with message and OK and Cancel buttons
+&bull; prompt(message)                        - Displays prompt box asking user to input a string
+&bull; open(URL)                              - Opens a new window with given URL argument
+&bull; print()                                - Opens Print Dialog to print the current document
+&bull; getComputedStyle(element[, pseudoElt]) - Returns elements computed style
+&bull; scrollTo(x-coord, y-coord || options)  - Scrolls window to a particular place in the document
+&bull; location()
+
+</pre>
+
+		<span class="chapter-section-title">Method definitions</span>
+
+<pre class="no-style">
+&bull; <b>alert(message)</b>
+    <b>Argument:</b>     message (string) - optional
+    <b>Description:</b>  Displays the alert box containing message with ok button. If argument is array,
+                  method converts it into a string and displays array contents.
+
+</pre>
+
+		<span class="notice">NOTE: Prevents user from accessing other parts of the page until alert box is closed.</span>
+
+<pre class="no-style">
+    <b>Return value:</b> None
+
+&bull; <b>confirm(message)</b>
+    <b>Argument:</b>     message(string) - optional
+    <b>Description:</b>  Displays confirm box containing message with ok and cancel buttons. If argument is
+                  an array, method converts it into a string and displays array contents.
+</pre>
+
+		<span class="notice">NOTE: Prevents user from accessing other parts of the page until confirm box is closed.</span>
+
+<pre class="no-style">
+    <b>Return value:</b> true or false. If user clicked "ok", returns true, otherwise false.
+
+&bull; <b>prompt(message, defaultText)</b>
+    <b>Arguments:</b>    message(string) - optional, defaultText(string) - optional
+    <b>Description:</b>  Displays prompt box containing message, text input field, ok and cancel buttons.
+                  If second  argument is given, input field contains this argument. If either
+                  argument is array, method converts it into a string and displays array contents.
+
+</pre>
+
+		<span class="notice">NOTE: Prevents user from accessing other parts of the page until prompt box is closed.</span>
+
+<pre class="no-style">
+    <b>Return value:</b> String that user inputted. If cancel button is pressed, returns null.
+
+&bull; <b>open(URL, windowName, [windowFeatures])</b>
+    <b>Arguments:</b>    URL(string) - optional
+                  windowName(string) - optional. Specifies the name of the browsing context
+                                       (window, &lt;iframe&gt; or tab)
+                  [windowFeatures](string) - optional. Comma separated list of freatures the new
+                                             window should have with syntax "name=value".
+                                             For example: "menubar=yes,location=yes,scrollbars=yes"
+    <b>Description:</b>  Opens a new browser window with given URL argument as location, with optional second
+                  argument, new window can be opened inside &lt;iframe&gt; or new tab. If third argument
+                  is used, opens window with given options according to third argument.
+    <b>Return value:</b> A window object representing newly created window. If the window could not be opened,
+                  return value is null.
+
+&bull; <b>print()</b>
+    <b>Arguments:</b>    None
+    <b>Description:</b>  Opens browsers print dialog to print the current document.
+    <b>Return value:</b> None
+
+&bull; <b>getComputedStyle(element[, pseudoELT])</b>
+    <b>Arguments:</b>    element(DOM element) - DOM element which computed style to retrieve
+                  pseudoELT(string) - optional. A string specifying pseudo-element to match. 
+                                      Must be omitted (or null) for regular elements.
+    <b>Description:</b>  Used to get CSS style declarations for a single HTML element (or pseudo-element).
+    <b>Return value:</b> CSSStyleDeclaration object which updates itself automatically when the elements
+                  style is changed.
+
+</pre>
+
+			<span class="notice">
+				NOTE: you can access elements CSS style properties either APIs provided by this object or simply indexing
+              	with CSS property name.
+            </span>
+
+<pre class="no-style">
+&bull; <b>scrollTo(x-coord, y-coord || options)</b>
+    <b>Arguments:</b>    If given x-coord(int) and y-coord(int), scrolls viewport in pixels to given 
+                  argument values. If given options, you must define class that has 3 properties:
+                  top (same as x-coord), left (same as y-coord), behavior(string) that can have
+                  one of three values: smooth, instant or auto.
+    <b>Description:</b>  Scrolls viewport to given arguments.
+
+</pre>
+
+		<span class="notice">
+			NOTE: If content fits to viewport and there is no scrollbars, this method does nothing.
+            Alsot, Atleast with Google Chrome (v69.0.3497.81) if not used with event handler, does nothing.
+        </span>
+
+<pre class="no-style">
+    <b>Return value:</b> None
+
+</pre>
+
+		<span>
+			Full list of window methods and properties: [Ref. X] https://developer.mozilla.org/en-US/docs/Web/API/Window
+		</span>
+
+		<span>Window object has 5 main classes as member variables, that also include DOM:</span>
+
+<pre class="no-style">
+<b>1) document
+2) history
+3) screen
+4) navigator
+5) location</b>
+
+</pre>
+
+		<span class="chapter-sub-title">Window.document class</span>
+
+		<span class="chapter-sub-title">Cookies</span>
+
+Cookies are a way to store information on users browser when he visits website but only if he has allowed browser to
+set cookies from website via browsers settings. Technically cookies are simple text files that browser store in users
+computer in a single name=value pair as a content (value is String type). Because HTTP protocol is a stateless protocoll,
+cookies are typically used to keep user logged in at a website, remember shoping cart contents in a webshop etc.
+
+Cookies can have following optional parameters with required cookie name and cookie value parameters, used in a same
+syntax as setting cookie ie. name=value separated by semicolon(;). All optional parameters must be in a one string:
+
+* Domain / Path - These define the scope of the cookie. Default value for most browsers are root path and current domain
+* Expiration Date - When browser deletes cookie
+* 
+* 
+
+To create/modify/delete cookies with JavaScript you can use window.document.cookie -property.
+
+Example to create cookie and creating cookie with optional parameters:
+
+document.cookie = "username=Hunter S. Thompson; expires=Mon, 20 Jan 2020 12:00:00UTC; path=/";
+
+To delete cookie with JavaScript, simply set expires parameter to past. NOTE: Some browsers will not let you delete a
+cookie if you don't specify the path also:
+
+document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
+
+To modify existing cookie, just use same name=value pair with new parameters and/or parameter values:
+
+document.cookie = "username=Hunter S. Thompson; path=/images; domain=www.mywebsite.com";
+
+To read all cookies with JavaScript:
+
+var cookies = document.cookie;   // Using shorthand syntax, omitted window object. Returns all cookies in a one string:
+                                 // cookie1=value;cookie2=value;cookie3=value...
+
+Parameter examples:
+--------------------
+Parameter:     domain
+Description:   Sets domain that cookie is valid for. You can set it to whole website (www.mywebsite.com) a subdomain
+               (test.mywebsite.com) or all subdomains included in website (.mywebsite.com) with path=/ -parameter
+Usage:         document.cookie = "name=Hunter S. Thompson; domain=www.mywebsite.com";
+Notes:         If omitted, most browsers set domain as current URL [???]
+
+Parameter:     path
+Description:   Sets path in the website to which cookie is only valid for. Relative to domain[???]
+Usage:         document.cookie = "name=Hunter S. Thompson; path=/images"
+Notes:         If omitted, most browsers set "path=/" which covers all sub-directories in the website structure
+
+Parameter:     expires
+Description:   When cookie expires and browser removes it from users computer
+Usage:         [???]
+
+		<span class="chapter-sub-title">Error Handling</span>
+
+JavaScript supports try/catch error handling. Normal Error object is created with two properties: message and name. With keyword "throw", 
+you can create custom error messages. Keyword "finally" lets you execute code block regardless of the result. For example:
+
+try {
+	var x = 1;
+	if( x != 0 )
+		throw "X is not 0!";
+} catch(Error) {
+	console.log(Error);
+} finally {
+	console.log("this will be printed to console regardless if there was an error or not");
+}
+
+If you do not use custom error messages created by "throw" -keyword, JavaScript creates an Error object that has two properties:
+"name" and "message". Six different values can be returned by the error name property:
+
+EvalError	      - An error has occurred in the eval() function
+RangeError	    - A number "out of range" has occurred
+ReferenceError	- An illegal reference has occurred
+SyntaxError	    - A syntax error has occurred
+TypeError	      - A type error has occurred
+URIError	      - An error in encodeURI() has occurred
+
+
+JavaScript can "display" data in four different ways, using object methods:
+* Writing into an HTML element using innerHTML()
+* Writing into HTML output using document.write()
+* Writing into an alert box using window.alert()
+* Writing into browser console for debugging purposes, using console.log()

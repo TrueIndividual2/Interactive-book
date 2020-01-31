@@ -1,0 +1,56 @@
+		<span class="chapter-title">Chapter 9: JSON</span>
+
+		<span>
+			JSON stands for JavaScript Object Notation and is a lightweight, platform independent, data interchange format. Most
+			often used for sending data to/from server. Basic syntax includes name/value pairs in double quotes separated by colon.
+			If more than one name/value pair exists, they are separated by comma. JSON is in text format and when exchanging data
+			between a browser and a server, the data can only be in text format. Benefits are that JSON data format is supported
+			by far most of programming/scripting languages.
+		</span>
+
+		<span>JSON format was originally specified by Douglas Crockford.</span>
+
+		<span class="notice">NOTE: JSON format requires use of name/value pairs to be enclosed in double quotes (")</span>
+
+		<span>Example: "name":"value","name1":"value1"</span>
+
+<pre class="no-style">
+&bull; Data is in name/value pairs
+&bull; Data is separated by commas
+&bull; Curly braces hold objects
+&bull; Square brackets hold arrays
+&bull; File type for JSON files is ".json" and MIME type is "application/json"
+
+So a JSON data that holds object called "myObject", member variable "name" and array "colors":
+
+</pre>
+
+<pre><code>{
+    "myObject":{"name":"john", "colors":["green","red"] }
+}
+</code></pre>
+
+		<span>Another example, JSON received text data that contains simple data values</span>
+
+<pre><code>{
+    "name":"McGuyver","age":30,"pro":true
+}
+</code></pre>
+
+		<span>JavaScript offers class with methods to easily convert JSON text data to JavaScript object.</span>
+
+<pre><code>JSON.stringify(myObject); // Converts object into JSON string
+JSON.parse(myObject);     // Converts JSON string into a JavaScript object
+</code></pre>
+
+		<span>[TODO: JSONP]</span>
+TODO/EXTRAS:
+console.log / console.info / console.error jne. console.log(param1, param2) <- css style with using %c!
+
+%s  Formats the value as a string
+%i or %d  Formats the value as an integer
+%f  Formats the value as a floating point value
+%o  Formats the value as an expandable DOM element. As seen in the Elements panel
+%O  Formats the value as an expandable JavaScript object
+%c  Applies CSS style rules to the output string as specified by the second parameter
+https://developers.google.com/web/tools/chrome-devtools/console/console-reference

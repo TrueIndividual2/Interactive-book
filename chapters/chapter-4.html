@@ -1,0 +1,322 @@
+		<span class="chapter-title">Chapter 4: Functions</span>
+
+
+		<span>Functions in JavaScript are quite versatile and differ quite a lot from other languages. JavaScript treats functions
+		      as Objects even though typeof operator returns string "function". For example, JavaScript functions have properties
+		      and methods like: arguments.length that returns the number of arguments passed to function when it was called and 
+		      toString() -method that returns function declaration as a string. So in basic, all functions in JavaScript are methods
+		      that belong to some object. If no object is defined, then function belongs to BOM window object and becomes it's method
+		      after declaration. So when you declare a function, you can call it by two different ways:</span>
+
+		<span><code>
+			function myFunction() {
+    			return 'foobar';
+			}
+
+			window.myFunction();
+			myFunction();
+		</code></span>
+
+		<span>JavaScript's default behaviour of moving declarations to the top of the current scope is called hoisting. Hoisting 
+			  applies to variable declarations and to function declarations. Bacause of this, JavaScript functions can be called
+			  before they are declared:</span>
+
+<pre><code>myFunction(5);
+
+function myFunction(value) {
+    console.log(value);
+}
+</code></pre>
+
+		<span>Up until ES6, function arguments could not have a default value assigned and you would have to explicitly check the
+		      value before using it inside a function.</span>
+
+<pre><code>function calculate(param1, param2) {
+   if(typeof param1 === "undefined")
+      param1 = 1;
+   if(typeof param2 === "undefined")
+      param2 = 1;
+
+   return param1 + param2;
+}
+
+console.log(calculate(2)); // Will write 3 to console
+</code></pre>
+
+		<span class="notice">NOTE: When you check parameters data type with typeof operator, notice that undefined is a string.</span>
+
+		<span>You can access passed parameters to function also with built-in object called "arguments" and even manipulate it 
+			  so that it can actually "access" parameters that were not defined in function definition.</span>
+
+<pre><code>function calculate(param1, param2) {
+   if(typeof arguments[0] === "undefined")
+      arguments[0] = 1;
+   if(typeof arguments[1] === "undefined")
+      arguments[1] = 1;
+
+   arguments[2] = 3;   // Add third nonexist argument with value of 3
+
+   return arguments[0] + arguments[1] + arguments[2];
+}
+
+console.log(calculate(2));   // Will write 6 to console
+</code></pre>
+
+		<span>From ES6 you can define parameters to have default values and even chain parameters.</span>
+
+<pre><code>function calculate(param1 = 1, param2 = param1 + 1, param3 = param2 + 1) {
+    return param1 + param2 + param3;
+}
+
+console.log(calculate());   // Will write 6 to console
+</code></pre>
+
+		<span>Parameters are passed by value but if you pass object as parameter to function, then it is passed by reference.</span>
+
+		<span>You can have unlimited arguments with function using "Rest" argument in the function declaration. Rest argument is
+			  prefixed with three dots "...". Rest argument behaves like an array so you can access additional arguments with array
+			  index.</span>
+
+<pre><code>function calculate(...unlimitedParams) {
+   return unlimitedParams[0] + unlimitedParams[1] + unlimitedParams[3];
+}
+
+console.log(calculate(2, 0, 0, 1));   // Will write 3 to console
+</code></pre>
+
+		<span>You can also pass function parameters using rest syntax. So if you have an array that has 3 elements, following example
+		      is perfectly legal in JavaScript:</span>
+
+<pre><code>var myValues = [1, 2, 3];
+
+function calculate(param1, param2, param3) {
+   return param1 + param2 + param3;
+}
+
+console.log(calculate(...myValues)); // Writes 6 to console
+</code></pre>
+
+		<span class="notice">NOTE: If you would have an array with more elements than function takes arguments, only the first elements
+		                     up until function parameter count (three in the above example) will be used and no error nor warning will 
+		                     be issued.</span>
+
+
+		<span class="chapter-sub-title">Tagged Template Functions</span>
+
+		<span>You can also call function with template literals. These functions are called "tagged template functions". Syntax for 
+			  calling a tagged template function differences a little bit from normal function call. You don't use parenthes () when
+			  you pass Template Literal String as a parameter to function:</span>
+
+<pre><code>var one = 1, two = 2, three = 3;
+count `Counting: ${one}... ${two}... ${three} done!`;
+
+// Tagged Template function
+function count(literalArray, ...values) {
+   var helperString = "", i = 0;
+
+   console.log(literalArray);
+   for(let i = 0; i < literalArray.length; i++) {
+      helperString += literalArray[i] + values[i];
+   }
+   console.log('Whole string, ' + helperString);
+}
+</code></pre>
+
+<pre class="no-style">
+Output to browser console:
+ ['Counting: ', '...', '...', ' done!'];
+ Whole string: Counting: 1... 2... 3 done!undefined
+
+</pre>
+
+		<span>In the above example, first argument to Tagged Template function is array containing strings between variables inside
+		      Template Literal String. For second argument we use spread operator and it holds an array with all the variable values
+		      inside Template Literal String. Because there is only three variables inside Template Literal String (= three elements
+		      inside value rest argument) and four elements in literalArray argument, looping through all elements that literalArray
+		      contains, causes the "undefined" to be printed to output.</span>
+
+		<span class="chapter-sub-title">Anonymous functions</span>
+
+		<span>Anonymous functions are functions without a name. You can create an anonymous function using an expression. Example of
+		      anonymous function stored in a variable and the variable itself can be used as a function:</span>
+
+<pre><code>var functionVar = function(a, b) { return a + b; };
+console.log('Anonymous function returns: ' + functionVar(1,2));
+</code></pre>
+
+<pre class="no-style">
+Console output:
+ Anonymous function returns: 3
+
+</pre>
+
+		<span>You can also create anonymous function with built-in JavaScript function constructor "Function()". Writing the above
+		      example to produce same results with constructor class:</span>
+
+<pre><code>var functionVar = new Function('a', 'b', 'return a + b');
+console.log('Anonymous function returns: ' + functionVar(1,2));
+</code></pre>
+
+<pre class="no-style">
+Console output:
+ Anonymous function returns: 3
+
+</pre>
+
+		<span>Anonymous functions can also be made "Self-invoking" which means that they are invoked (started) automatically without
+		      being called if used as an expression. Syntax for this is adding parenthes and semicolon at the end of anonymous function.
+		      Consider the following example:</span>
+
+<pre><code>(function() { console.log('I am an Self-invoked anonymous function') })();</code></pre>
+
+<pre class="no-style">
+Console output:
+ I am an Self-invoked anonymous function
+
+</pre>
+
+		<span>The added parentheses around the function is so that it is an expression. Same results could be achieved with following
+		      example:</span>
+
+<pre><code>console.log(function(){ return 'I am an Self-invoked anonymous function'; }() );</code></pre>
+
+<pre class="no-style">
+Console output:
+ I am an Self-invoked anonymous function
+
+</pre>
+
+		<span>ES6 also introduced shorthand definition of function syntax called "Arrow functions". Arrow functions are not named;
+		      they can be assigned to a variable but are always anonymous. Syntax for Arrow functions has set of parentheses that
+		      hold parameters, then arrow (=>) and finally curly braces ({}) that hold the body of the function.</span>
+
+<pre><code>var calculate = (param1, param2) => { return param1 + param2; };
+var showText = () => { return "hello world!"; };
+
+console.log(calculate(1,2));   // Writes 3 to console
+console.log(showText());       // Writes "hello world!" to console
+</code></pre>
+
+
+		<span class="chapter-sub-title">Generator functions</span>
+
+		<span>Generator functions, introduced in ES6, are special functions that can be called and their execution can be left in
+		      a certain point and continued from that point later. Generator functions use "yield" keyword for pausing the
+		      execution of function and returning a value until the generator is called again and there are no more yields or a
+		      return keyword is executed which ends the function execution. Variable scope is same as normal function and variables
+		      declared inside generator scope hold their value through every iteration call.</span>
+
+		<span>Syntax for creating a generator is same as normal function declaration except you use asterisk (*) in front of function
+			  name:</span>
+
+<pre><code>function *myGenerator() {
+   yield 'this is return value';
+}
+</code></pre>
+
+		<span>You use generators through iterator object which is returned after the first call to generator. Iterator object itself
+		      has a method "next()" that can have an argument. When you call generator function with iterator objects next() -method,
+		      an object with two member variables is returned: "value" and "done". Objects value property holds yields return value
+		      (or return statements return value), and done property holds true/false depending if the generator has reached end of
+		      it's execution.</span>
+
+		<span>To put this all together, we can have simple example:</span>
+
+<pre><code>var myGen = myGenerator();  // myGen holds now an iterator object for myGenerator() -generator function
+
+// Loop through all iterations of generator or until return statement is reached and finishes generator
+do {
+   var myObj = myGen.next();
+   console.log('Generator return value: ' + myObj.value + ' / Generator finished: ' + myObj.done);
+} while(!myObj.done);
+
+console.log(myGen.next());  // Returns object {value: undefined, done: true}
+
+var myGen1 = myGenerator();  // Create new iterator object for generator function to use it again
+myObj = myGen1.next();
+console.log('New instance of generator iterator object created. Return value from calling generator: ' + myObj.value );
+
+// Generator function
+function *myGenerator() {
+   var i = 0;
+  
+   i++;
+   yield 'First call';
+   yield 'Second call';
+   i = i * i;
+   return 'This is third call and return statement reached. i = ' + i;
+   yield 'This is never executed because of above return statement';
+}
+</code></pre>
+
+<pre class="no-style">
+Output to browsers console:
+ Generator return value: First call / Generator finished: false
+ Generator return value: Second call / Generator finished: false
+ Generator return value: This is third call and return statement reached. i = 1 / Generator finished: true
+ {value: undefined, done: true}
+ New instance of generator iterator object created. Return value from calling generator: First call
+
+</pre>
+
+		<span>While you are able to pass argument to generator, it's a little tricky. You need to trigger the generator
+			  first with iteratorObj.next() method and after that you can pass it an argument with
+			  <code>iteratorObj.next(myArgument);</code> For example:</span>
+
+<pre><code>var myGen = myGenerator();  // Obtain iterator object for generator
+var myObj = myGen.next();   // Iterate generator for the first time and obtain iterator object
+
+console.log(myObj.value);
+myObj = myGen.next('This is custom argument passed to generator');
+console.log(myObj.value);
+myObj = myGen.next();
+console.log(myObj.value);
+
+function *myGenerator() {
+   var x = yield 'Generator called first time';
+   yield x;
+   yield 'generator finished';
+}
+</code></pre>
+
+<pre class="no-style">
+Output to browsers console:
+ Generator called first time
+ This is custom argument passed to generator
+ generator finished
+
+</pre>
+
+		<span class="chapter-sub-title">Function binding</span>
+
+		<span>Functions have a method called "bind()" that affects the scope of "this" keyword. This is called "bound function"
+		      or to be exact, a bound function is an "exotic function object" (a term from ECMAScript 2015) that wraps the
+		      original function object.</span>
+
+<pre class="no-style">
+&bull; <b>bind(thisArg, ...arguments)</b>
+    <b>Description:</b>    Defines the scope of this -keyword with given parameter thisArg
+    <b>Parameters:</b>     thisArg - object
+                      Value to be passed as the this parameter to the target function when the bound function is
+                      called. The value is ignored it the bound function is constructed using the new operator.
+                    ...arguments - Mixed
+                      Arguments to prepend to arguments provided to the bound function when invoked
+    <b>Return value:</b>   A copy of the given function with the specified 'this' value and initial arguments
+    <b>Example usage:</b>
+
+<pre><code>this.x = 9; // this refers to global window object
+
+var boundFunction = {
+   x:    81,
+   getX: function() { return this.x; }
+};
+
+boundFunction.getX();  // 81
+
+var retrieveX = boundFunction.getX; // When we take only function that uses 'this' operator, it belongs to global window object
+retrieveX(); // Returns 9 
+
+// Create a new function with 'this' bound to boundFunction
+var boundGetX = retrieveX.bind(boundFunction);
+boundGetX(); // 81
+</code></pre></pre>

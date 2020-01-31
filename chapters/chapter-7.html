@@ -1,0 +1,296 @@
+		<span class="chapter-title">Chapter 7: Document Object Model (HTML DOM)</span>
+
+
+		<span>
+			When a web page is loaded, browser creates a HTML Document Object Model of the web page. HTML DOM is one of three W3C
+			(World Wide Web Consortium) DOM standards (other two are "Core DOM" and "XML DOM"). HTML DOM model is a tree of objects
+			where root object is "document" and all HTML elements are objects that belong to it. With JavaScript, you can modify,
+			remove or add HTML elements in a web page dynamically. In other words, HTML DOM is a programming interface for HTML.
+		</span>
+
+		<span>
+			The document object represents your web page. If you want to access any element in the HTML page, you start with accessing
+			the document object.
+		</span>
+
+		<span>With document object, you can: find, add, remove or modify HTML elements and create event handlers.</span>
+
+      <span class="notice">NOTE: Good JavaScript programming practice is to wait for browser to fully load HTML DOM before trying to
+								                 access HTML DOM elements. This can be achieved with pure JavaScript by using following code snippet:
+		  </span>
+
+    <code><span>
+      document.onreadystatechange = function() {<br />
+        if(document.readyState == 'complete' ) {<br />
+          // Place your code here<br />
+        }<br />
+      };
+    </code></span>
+
+    <span><b>OR</b></span>
+
+    <code><span>
+      window.onload = function() {<br />
+        // Place your code here<br />
+      }
+    </span></code>
+
+		<span>window.onload fires right after document -objects readyState -membervariable equals 'complete'</span>
+
+
+		<span class="chapter-sub-title">HTML DOM Basics</span>
+
+
+		<span class="chapter-section-title">Accessing HTML elements</span>
+
+
+    <span>Before you can do anything with HTML element, you must first access it by getting instance of it. There are a couple of ways to do this:</span>
+
+    <span>&bull; Finding HTML elements by id<br />
+                  document.getElementById("myID");<br />
+                  Returns HTML element object<br />
+          &bull; Finding HTML elements by tag name
+                  document.getElementsByTagName("div");<br />
+                  Returns HTMLCollection object<br />
+          &bull; Finding HTML elements by class name<br />
+                  document.getElementsByClassName("myClass");<br />
+                  Returns HTMLCollection object<br />
+          &bull; Finding HTML element by CSS selectors<br />
+                  document.querySelector(".myId");<br />
+                  Returns first <i>Element</i> withing the document with given selector. If no matches are found, returns null<br />
+          &bull; Finding HTML elements by CSS selectors<br />
+                  document.querySelectorAll(".myClass");<br />
+                  Returns HTMLCollection object including all elements with class "myClass"<br /><br />
+
+          After you have HTML element object, you can access its properties/methods. For example, changing a CSS 
+          style of one DIV in HTML document:</span>
+
+    <code><span>
+      var myDiv = document.getElementById("myID");<br />
+      myDiv.style.backgroundColor = "#000000";
+    </span></code>
+
+		<span>
+			If you use one of the documents find methods that return HTMLCollection object, you can access a single element
+			in the same way you would access an array element. For example, finding all HTML Div elements that have a class
+			"myDIV" and changing their text:
+		</span>
+
+    <code><span>
+      var myDivs = document.getElementsByClassName("myDIV");<br />
+      var i = 0;<br />
+      var divCount = myDivs.length;<br /><br />
+
+      for(i = 0; i < divCount; i++ ) {<br />
+        myDivs[i].innerHTML = "This text was changed dynamically by JavaScript";<br />
+      }
+    </span></code>
+
+
+		<span class="chapter-sub-title">HTML DOM Events</span>
+
+
+    <span>You can use JavaScript to react HTML events. HTML Event can be something that browser or user does in web page. For example:<br /><br />
+      <ul>
+        <li>An HTML web page has finished loading</li>
+        <li>User clicks the mouse</li>
+        <li>Mouse moves over the element</li>
+        <li>User strokes a key</li>
+        <li>A HTML input field has changed</li>
+      </ul>
+
+    <span>Events can be written in the HTML document itself including event attribute to tag:</span>
+
+    <code><span>
+      HTML File:<br /><br />
+      &lt;div&gt;<br />
+      &lt;p onclick="writeToConsole()"&gt;Click me&lt;/p&gt;<br />
+      &lt;/div&gt;<br /><br />
+      &lt;script&gt;<br />
+      function writeToConsole() {<br />
+        console.log('P element clicked');<br />
+      }<br />
+      &lt;/script&gt;
+    </span></code>
+
+      <span class="notice">NOTE: If we use any of HTML elements event attribute, you have to have function declared in the same HTML file
+                           inside &lt;script&gt; tags.</span>
+
+    <span>Events can also be added dynamically with JavaScript:</span>
+
+    <code><span>
+      document.getElementById("myDiv").onmouseover = writeToConsole;<br /><br />
+
+      function writeToConsole() {<br />
+        console.log('Mouse is over HTML element that has id myDiv');<br />
+      }
+    </span></code>
+
+    <span>
+      JavaScript propagates events in HTML DOM using either event bubbling or event capturing. Event propagation means in which order
+      should the event be handled. If we have element inside an element and both have mouseclick event attached to it, bubbling means
+      that inner most elements event handler is executed first, while capturing does the opposite (ie. outer most element's event 
+      handler is executed first). To control even propagation, we can use elements "addEventListener" method:</span>
+
+    <span>&bullet; addEventListener(event, function, [options,useCapture])<br />
+    Description:    Attach event listener function to HTML element<br />
+    Parameters:     event - String<br />
+                      Event that we want to attach to HTML element.<br /></span>
+
+
+          <span class="notice">NOTE: When adding event, we don't use the "on" prefix for the event like we would use in HTML. So
+                            "onmouseclick" becomes "mouseclick".</span>
+    <span>function - String<br />
+                      Name of the function to execute when the event fires<br />
+                    options (optional) - Object<br />
+                      If given, takes object that specifies characteristics of the event listener. Avalaible options are:<br />
+                        capture: Boolean indicating that events of this type will be dispatched to the registered
+                                 listener before being dispatched to any EventTarget beneath the DOM tree.<br />
+                        once:    Boolean indicating that the listener function to execute should be run only once
+                                 after being added. If set to true, the listener will be automatically removed when
+                                 invoked.<br />
+                        passive: Boolean that handles elements default behaviour. If set to to true and function to
+                                 execute after event fires, calls preventDefault() method, a console warning will be
+                                 issued.<br />
+                    useCapture (optional) - boolean<br />
+                      If set to true, event uses capturing propagation. If set to false, event uses bubbling propagation.
+                      If options parameter is not given and boolean is given as a third argument, this argument takes
+                      priority. Defaults to false ie. bubbling propagation.<br />
+
+    Return value:   undefined<br /><br />
+
+    Example usage when clicked twice:</span>
+
+    <code><span>
+      HTML file:<br /><br />
+
+      &lt;div id="myDiv"&gt;<br />
+        &lt;p id="myP">Click me&lt;/p&gt;<br />
+      &lt;/div&gt;<br /><br />
+
+      JavaScript file:<br /><br />
+
+      document.getElementById('myDiv').addEventListener('click', writeToConsole, true);<br />
+      document.getElementById('myP').addEventListener('click', writeToConsole, {once: true}, true);<br /><br />
+
+      function writeToConsole() {<br />
+        console.log(this.id);<br />
+      }<br /><br />
+
+      Console output:<br />
+      &nbsp;myDiv<br />
+      &nbsp;myP<br />
+      &nbsp;myDiv
+    </span></code>
+
+    <span>By default, you cannot pass parameters to function which is executed when event fires. If you want to pass parameters to 
+          function, you can use following example:</span>
+
+    <code><span>
+      function writeToConsole(text = "") {<br />
+        return function() {<br />
+          console.log(text);<br />
+        }<br />
+      }<br /><br />
+
+      document.getElementById('myDiv').addEventListener('click', writeToConsole('Paramater passed'));
+    </span></code>
+
+    <span>Commonly used events:<br />
+      onchange      - An HTML element has been changed<br />
+      onclick       - The user clicks an HTML element<br />
+      onmouseover   - The user moves mouse over an HTML element<br />
+      onmouseout    - The user moves mouse away from an HTML element<br />
+      onload        - The browser has finished loading the web page<br />
+      onchange      - The event occurs when the content of a form element, the selection, or the checked state have changed (for &lt;input&gt;, &lt;select&gt;, and &lt;textarea&gt;)<br />
+      onkeydown     - The event occurs when the user is pressing a key<br /><br />
+
+      Events can have properties and methods also:<br />
+      preventDefault()   - Cancels the event if it is cancelable, meaning that the default action that belongs to the event will not occur<br />
+      screenX            - Returns the horizontal coordinate of the mouse pointer, relative to the screen, when an event was triggered<br />
+      target             - Returns the element that triggered the event<br /><br /></span>
+
+    <span>COMPLETE EVENT LIST:<br />
+      abort<br />
+      afterprint<br />
+      animationend<br />
+      animationiteration<br />
+      animationstart<br />
+      beforeprint<br />
+      blur - element loses focus<br />
+      canplay - when the browser can start playing media (when it has buffered enough to begin)<br />
+      change - content of a form element changes (input, select, textarea)<br />
+      click<br />
+      contextmenu - when user right-clicks on an element to open a context menu<br />
+      copy - when user copies content of an element<br />
+      cut<br />
+      dblclick<br />
+      drag<br />
+      dragend<br />
+      dragenter - when the dragged element enters the drop target<br />
+      dragleave - when the dragged element leaves the drop target<br />
+      dragover - when the dragged element is over the drop target<br />
+      dragstart<br />
+      drop - when the dragged element is dropped on the drop target<br />
+      durationchange - when the duration of the media is changed<br />
+      ended - when the media has reach the end (like "thanks for listening")<br />
+      error - when an error occurs while loading an external file<br />
+      focus<br />
+      focusin - fires just before focus, when the element is about to get focus<br />
+      focusout<br />
+      fullscreenchange - when an element is displayed in fullscreen mode<br />
+      fullscreenerror - when an element can not be displayed in fullscreen mode<br />
+      hashchange - when there has been chages to the anchor part of a URL<br />
+      input - when an element gets user input<br />
+      invalid - occurs when element is invalid<br />
+      keydown<br />
+      keypress<br />
+      keyup<br />
+      load - when an object has loaded<br />
+      loadeddata - when media data is loaded<br />
+      loadedmetadata - when meta data (like dimensions and duration) are loaded<br />
+      loadstart - when browser starts looking for the specified media<br />
+      message - when a message is received through the event source<br />
+      mousedown<br />
+      mouseenter<br />
+      mouseleave<br />
+      mousemove<br />
+      moseout<br />
+      mouseup - when a user releases a mouse button over an element<br />
+      offline - when browser starts to work offline<br />
+      online<br />
+      open - when a connection with the event source is opened<br />
+      pagehide - when the user navigates away from a webpage<br />
+      pageshow - when the user navigates to a webpage<br />
+      paste<br />
+      pause<br />
+      play<br />
+      playing - event fires when media is playing after having been paused or stopped for buffering<br />
+      popstate - fires when the windows history changes<br />
+      progress - fires when the browser is in the process of getting the media data (downloading the media)<br />
+      ratechange - when playing speed of the media is changed<br />
+      resize - when document view is resized<br />
+      reset - when a form is reset<br />
+      scroll - when an elements scrollbar is being scrolled<br />
+      search - when the user writes something in a search field (&lt;input="search"&gt;)<br />
+      seeked<br />
+      seeking<br />
+      select - fires after the user selects some text (for &lt;input&gt; and &lt;textarea&gt;)<br />
+      show - event occurs whe a <menu> element is shown as a context menu<br />
+      stalled - fires when browser is trying to get media data, but data is not available<br />
+      storage - fires when a Web Storage area is updated<br />
+      submit - form is submitted<br />
+      suspend - when browser is intentionally not getting media data<br />
+      timeupdate - fires when the playing position has changed (like when the user fast forwards to a different point in the media)<br />
+      toggle - when the user opens or closes &lt;details&gt; element<br />
+      touchcancel - when the touch is interrupted<br />
+      touchend - when a finger is removed form a touch screen<br />
+      touchmove - when a finger is dragged across the screen<br />
+      touchstart - when a finger is placed on a touch screen<br />
+      transitioned - when a CSS transition has completed<br />
+      unload - once a page has unloaded (for &lt;body&gt;)<br />
+      volumechange<br />
+      waiting - when the media has paused but is excepted to resume (like when the media pauses to buffer more data)<br />
+      wheel - mouse wheel rolls up or down<br /><br />
+
+      For complete list of HTML DOM Events, see [ref.3]</span>

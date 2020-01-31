@@ -1,0 +1,107 @@
+		<span class="chapter-title">Chapter 10: AJAX</span>
+
+		<span>
+			AJAX is a technique to transfer data between web servers using users browser. AJAX is an acronym for Asynchronous
+			JavaScript And XML. With AJAX, you can update web page asynchronously or synchronously in the background without
+			need to reload the whole web page. AJAX uses an <i>XMLhttpRequest</i> Object to request data from a web server.
+			All modern browsers support XMLHttpRequest Object.
+		</span>
+
+<pre class="no-style">AJAX request could be broken into following steps:
+<b>1)</b> An event triggers in a web page
+<b>2)</b> A XHMLHttpRequest Object is created with JavaScript
+<b>3)</b> XMLHttpRequest Object sends a request to a web server
+<b>4)</b> Server processes the request
+<b>5)</b> Server sends response back to web page
+<b>6)</b> Response is handled with JavaScript
+<b>7)</b> If request was successfull and server sent data, you can use it as you see fit 
+   (like updating a div content with latest news)
+
+</pre>
+
+		<span>After creating <i>XMLHttpRequest</i> Object with keyword <i>new</i>, you have access to following methods/properties:</span>
+
+		<span class="chapter-section-title">XMLHttpRequest object methods/properties</span>
+
+<pre class="no-style">
+&bull; <b>open(methodType, url, async)</b>
+    <b>Description:</b>    Specifies the type of request
+    <b>Parameters:</b>     methodType - String
+                      POST or GET
+                    url - String
+                      Universal Resource Location where to send request
+                    async - Boolen
+                      If set to true, request is made asynchronously, otherwise synchronous. Mostly
+                      suggested to use asynchronous way so that JavaScript does not stop script
+                      execution while waiting reponse from the server.
+    <b>Example usage:</b>
+
+      var myAjax = new XMLHttpRequest();
+      myAjax.open("GET", 'www.mydomain.com/foobar.txt', true);
+
+&bull; <b>send() / send(data)</b>
+    <b>Description:</b>    If parameter is provided, send() -method is used for POST, otherwise GET is used.
+    <b>Parameter:</b>      data - String
+                      Can be anything as long it is string.
+    <b>Example usage:</b>
+
+</pre>
+
+<pre><code>var myAjax = new XMLHttpRequest();
+myAjax.open("POST", 'www.mydomain.com/foobar.txt', false);
+myAjax.send("myAPIKey=jklXS19dK");
+</code></pre>
+
+<pre class="no-style">
+&bull; <b>readyState</b>
+    <b>Description:</b>    Property that holds the status of the XMLHttpRequest    
+                    0: request not initialized
+                    1: server connection established
+                    2: request received
+                    3: processing request
+                    4: request finished and response is ready                    
+
+&bull; <b>status</b>
+    <b>Description:</b>    Property that holds a HTTP status code. For example, HTTP 200 means "OK",
+                    404 means "Page not found" etc.
+
+&bull; <b>statusText</b>
+    <b>Description</b>     Property that holds the status code in a text format    
+
+&bull; <b>onreadystatechange</b>
+    <b>Description:</b>    Needs to be initialized with a function to be called when readyState
+                    property changes
+    <b>Example usage:</b>
+
+</pre>
+      
+<pre><code>var myAjax = new XMLHttpRequest();
+myAjax.onreadystatechange = function() {
+    if(this.readyState == 4 && this.status == 200 )
+        console.log(this.responseText);
+    };
+
+myAjax.open("POST", 'www.mydomain.com/foobar.txt', false);
+myAjax.send("myAPIKey=jklXS19dK");
+</code></pre>
+		
+		<span>
+			Explanation of above example: Because onreadystatechange() event is triggered four times, one time for each change in the
+    		readyState property chain, an anonymous function is executed which tests for a objects readyState and status properties.
+    		If readyState property equals 4 (request is finished and response is ready) and status is HTTP code 200 (OK), our request
+    		was succesfully processed and answered. After this you can use two following properties to get the data (if any was sent).
+    	</span>
+
+<pre class="no-style">
+&bull; <b>responseText</b>
+    <b>Description:</b>    Property that holds the servers response as a JavaScript string
+    <b>Example usage:</b>  Based on above example, you could retrieve data simply:
+
+</pre>
+
+<pre><code>document.getElementById('myDiv').innerHTML = myAjax.responseText;</code></pre>
+
+<pre class="no-style">
+&bull; <b>responseXML</b>
+    <b>Description:</b>    Property that holds the server response in a XML DOM Object format
+</pre>

@@ -1,0 +1,107 @@
+		<span class="chapter-title">Chapter 5: JavaScript Classes</span>
+
+		<span>
+			In other object oriented programming/scripting languages, you usually define class and then create an object from it.
+			JavaScript on the other hand, is classless language. With ES6, JavaScript now supports creating "classes" with new
+			keywords: <b><i>class</i></b>, <b><i>super</i></b>, <b><i>extends</i></b>, <b><i>static</i></b> and a method for class
+			constructor called <b><i>constructor()</i></b>. Because JavaScript inheritance works by prototype chain in objects and
+			not through classes, adding new keywords and functionality that emulates classes is mainly syntactical sugar for those
+			that have used to have classes in object oriented languages.
+		</span>
+
+		<span>
+			Before ES6, you could emulate classes by creating a function that acts as a constructor to new Object. Using keyword
+			<b><i>this</i></b> inside function, our function acts like a class.
+		</span>
+
+		<span class="notice">NOTE: Below example includes ES6 syntax with setting default values to function parameters if not
+							       provided when creating new object instance with "new" keyword.</span>
+
+<pre><code>function Car(model = 'lada', color = 'red') {
+    this.model = model;
+    this.color = color;
+    this.getCarInfo = getCarInfoOutside;
+    this.setCarInfo = function(model = this.model, color) {
+        this.model = model, this.color = color;
+    }
+}
+
+function getCarInfoOutside() {
+    return this.model + ': ' + this.color;
+}
+
+var myCar = new Car('Mercedes Benz', 'Red');
+myCar.setCarInfo('Mercedes Benz', 'Black');
+console.log(myCar.getCarInfo());
+</code></pre>
+
+<pre class="no-style">
+  Console log:
+   Mercedes Benz: Black
+
+Explanation:
+  First we create a function called car that can take two parameters. We initialize two variables which
+  were passed as parameters to our "class" when creating instance of it with keyword <b><i>new</i></b>. Initializing
+  model and car variables with keyword <b><i>this</i></b> makes them member variables of our "class".
+  Then we create two methods and I intentionally made other method <b>outside</b> of the "class"
+  declaration and second one inside the "class" declaration. After creating object from "class",
+  we decide to change the color of the car to Black instead of Red and finally we use method
+  <i>getCarInfoOutside()</i> and pass it's return value to browsers console.
+
+</pre>
+
+   		<span>
+			With ES6 there are keywords and syntax to write classes even if they are not classes in the same sense that in other
+			scripting/programming languages. If you are familiar with C++ or JAVA for example, this code snippet should look familiar:
+		</span>
+
+<pre><code>class Car {
+    constructor(model = 'lada', color = 'red') {
+        this.model = model;
+        this.color = color;
+    }
+
+    set setModel(model) {
+        this.model = model;
+    }
+
+    get getModel() {
+        return this.model;
+    }
+}
+
+class Mercedes extends Car {
+    constructor() {
+        super('Mercedes Benz');
+        this.motor = "V4";
+    }
+
+    showMyCar() {
+        console.log('I am driving a ' + this.color + ' ' + this.model + ' with ' + this.motor + 
+                    ' engine');
+    }
+
+    static writeToConsole() {
+        console.log('Static method called');
+    }
+}
+
+var myCar = new Mercedes();   // Create new instance of Mercedes that is a sub-class of Car
+myCar.setModel = 'Ferrari';   // Use setter method
+myCar.showMyCar();            // Write to console: I am driving a red Ferrari with V4 engine
+Mercedes.writeToConsole();    // Example of static method
+</code></pre>
+
+		<span class="chapter-section-title">Things to remember with JavaScript classes</span>
+
+		<span>
+			&bull; The class syntax does not introduce a new object-oriented inheritance model to JavaScript<br />
+			&bull; Classes are not hoisted<br />
+			&bull; The body of the class is executed in strict mode<br />
+			&bull; Keyword super can only be used in class constructor and must be called before keyword this can be used
+		</span>
+
+		<span>
+			You can find out more about classes in JavaScript in here [Ref. 6]
+			https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+		</span>

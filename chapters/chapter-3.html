@@ -1,0 +1,1254 @@
+		<span class="chapter-title">Chapter 3: Language basics</span>
+
+
+		<span class="chapter-sub-title">Implementing JavaScript to HTML document</span>
+
+
+		<span>You can implement JavaScript in two ways: either inline code or external file. Which ever you choose, you will use HTML &lt;script&gt;
+		      Tag that can be inserted either inside &lt;head&gt; or &lt;body&gt; sections in HTML document.</span>
+
+		<span>Example of Inline implementing:</span>
+
+        <code><span>
+            &lt;script&gt; alert('Hello World!');  // Display a popup (alert) window with text "Hello World!"
+            &lt;/script&gt;
+        </code></span>
+
+		<span>JavaScript file has a .js file extension. To add external Javascript file, use attribute <i>src</i> with either relative or full URL 
+			  path in &lt;script&gt; Tag.</span>
+
+		<span>Example of external implementation:</span>
+
+        <code><span>
+            // Relative path, script resides in "js" sub directory of domain<br />
+            &lt;script src="js/myScript1.js"&gt;&lt;/script&gt;<br />
+            // Full URL path to JavaScript file<br />
+            &lt;script src="http://www.mydomain.com/js/myScript2.js"&gt;&lt;/script&gt;
+        </code></span>
+
+
+		<span class="chapter-sub-title">Basic Syntax</span>
+
+
+		<span>JavaScript syntax is quite close to C++/Java languages with it's own differences of course. If you have prior knowledge of
+		      either language, you should be able to read JavaScript without heavy difficulties. Even though JavaScript is heavily object oriented,
+              it didn't have classes until ES6. Still inheritance is done through objects, not by classes like usually in other object oriented
+              programming/scripting languages. We will return to this difference in later chapters.</span>
+
+
+        <span class="chapter-section-title">Comments</span>
+
+
+		<span>JavaScript uses C++ style commenting so for one line comment, use two forward slashes <i>(//)</i>:</span>
+
+		
+        <code><span>
+            var myVar = 4; // Everything after these two forward slashes are comment in one line
+        </code></span>
+
+		<span>For multiline commenting, use forward slash and asterisk <i>(/*)</i> to start comment block and asterisk and forward slash <i>(*/)</i>
+        to end comment block:</span>
+
+		
+        <code><span>
+            var myVar = 4;<br />
+            /* Common way to debug code by commenting some of it<br />
+            myVar += 4;<br />
+            */<br />
+            console.log(myVar); // Outputs 4 to console
+        </code></span>
+
+
+		<span class="chapter-sub-title">Operators</span>
+
+
+		<span>In JavaScript, the plus (+) operator can be used for three purposes: type casting string to number, concatenating two strings or
+			  normal add operator.</span>
+		
+        <code><span>+ "4" // Type casts string "4" to number 4<br />
+                    1 + 1 // Normal add operator. Returns number 2<br />
+                    "1" + 1 // Concatenates strings with automatic type casting. Returns string "11"<br />
+        </code></span>
+
+		<span>As a string concatenate operator, if atleast one operand is string type, return type will be string. JavaScript syntax
+			  allows + operator to be repeated with a space between it:</span>
+
+        <code><span>
+            + + + "1" // Returns number 1
+        </span></code>
+
+		<span>Even though a little bit confusing, first plus <i>(+)</i> operator type casts <i>string "1"</i> to <i>number 1</i>. Second and third
+              plus <i>(+)</i> operator does the same so result remains same if we would used only one plus <i>(+)</i> operator.</span>
+
+		<span>The minus <i>(-)</i> operator can be used for two purposes: as an unary operator so it inverts number sign, otherwise
+			  it acts as a normal minus operator during number calculations. Type casting is done if string can be converted to a number.
+			  As plus <i>(+)</i> operator, also minus <i>(-)</i> operator can be repeated with spaces between it:</span>
+
+        <code><span>
+            - -1             // Inverts number -1 to 1<br />
+            - - -1           // Inverts number -1 two times so first it becames +1, then -1 again<br />
+            - "-1"           // Returns 1 as a number type<br />
+            /* Type casts string "1" to number 1, then inverts -1 number to 1 and adds both up returning number 2 */<br />
+            + "1" - - - -1   
+        </code></span>
+
+		<span class="notice">NOTE: In math two minuses equal plus so the operator minus (-) two times separated by space becames plus (+).</span>
+
+		<span class="chapter-section-title">Basic operators</span>
+
+		<span>JavaScript includes basic operators that are familiar from other programming languages:</span>
+
+        <code><span>
+            <i>++</i>                    - Increment value by one. Can be used as a left hand or right hand operand<br />
+            <i>--</i>                    - Decrease value by one. Can be used as a left hand or right hand operand<br />
+            <i><=</i>                    - Less or equal than left hand operand<br />
+            <i>>=</i>                    - Greater or equal than left hand operand<br />
+            <i>==</i>                    - Loose value test that does not check expression data type<br />
+            <i>===</i>                   - Strict value test by both value and data type. NOTE: NaN === NaN returns false<br />
+            <i>!==</i>                   - Strict invert value test by both value and data type. NOTE: NaN !== NaN returns true<br />
+            <i>(expr) ? true : false</i> - Ternary operator
+        </code></span>
+
+
+		<span class="chapter-section-title">Bitwise operators</span>
+
+
+        <code><span>
+            <i>|</i>   - OR<br />
+            <i>&</i>   - AND<br />
+            <i>^</i>   - XOR<br />
+            <i>~</i>   - NOT<br />
+            <i><<</i>  - Zero fill left shift<br />
+            <i>>></i>  - Signed right shift<br />
+            <i>>>></i> - Zero fill right shift
+        </span></code>
+
+		<span class="notice">NOTE: In JavaScript, using bitwise operators allways uses automatic type conversion of number to 32-bit signed integer except 
+      						 zero fill right shift which makes number unsigned 32-bit integer</span>
+
+
+		<span class="chapter-section-title">Spread / Rest operators</span>
+
+	
+		<span>Spread syntax allows an iterable object such as an array or string to be expanded in places where zero or more elements are
+			  expected. Spread syntax allows using it multiple times while Rest syntax can only be used once. Rest syntax does the opposite
+			  of Spread and condenses multiple elements into a single element. Rest syntax can only be used with function declaration as a
+			  last parameter. Syntax for both are the same:</span>
+
+        <code><span>
+            <i>...</i>  - <i>Three dots (.)</i> syntax is used for both: rest and spread operators. Both require iterable
+                   object but context where used, defines which terminology is correct.
+        </code></span>
+
+
+		<span>Spread with arrays:</span>
+
+        <code><span>
+            var myArr  = ["x", "y", "z"];<br />
+            var spreadArr = [...myArr, "zz"];                     // newArr has following elements: ["x", "y", "z", "zz"]<br>
+            // Spread used two times, result: ["x", "y", "z", "foobar", "x", "y", "z"]<br />
+            var secondSpreadArr = [...myArr, "foobar", ...myArr]; 
+        </span></code>
+
+		<span>Example with Rest operator as functions last parameter and passing it array parameter with Spread operator:</span>
+
+        <code><span>
+            var myArr = [1, 2, 3];<br />
+            function restTest(param1, ...arbitraryNoOfArguments) {<br />
+	           console.log(arbitraryNoOfArguments);<br />
+            }<br /><br />
+
+            restTest(1, 2, "testing", 4);<br />
+            restTest(1, ...myArr);
+        </code></span>
+
+        <span>Console output:<br />
+               &nbsp;[2, "testing", 4]<br />
+               &nbsp;[1, 2, 3]</span>
+		
+
+		<span class="chapter-section-title">Other useful operators:</span>
+
+
+        <span>&bull; <b>typeof</b><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b>   Returns a string indicating the data type of the expression<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Return values:</b> undefined, object, boolean, number, string, symbol, function, object, Nan, Infinity, -Infinity<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /></span>
+            
+            <code><span>
+                var myNum = 7;<br />
+                console.log(typeof myNum);</code></span>
+
+        <span>Console output:<br />
+              &nbsp;number</span>
+
+		<span class="notice">NOTE: You cannot use typeof to determine if a JavaScript object is an array or a date</span>
+
+        <span> &bull; <b>instanceof</b><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b>   Tests whether the prototype property of a constructor appears anywhere in the prototype chain of an object<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Return values:</b> true or false<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /></span>
+
+        <code><span>
+            function myObj() {<br />
+                name: "Hunter S. Thompson";<br />
+            }<br /><br />
+
+            var test = new myObj();<br />
+            console.log(test instanceof myObj);<br />
+            </code></span>
+
+        <span>
+            Console output:
+            &nbsp;true</span>
+
+        <span>&bull; <b>void</b><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b>   Evaluates an expression and returns undefined<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b>  undefined<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var a = 1, b = 2, c;
+            console.log(void(c = a + b));
+            console.log(c);
+        </code></span>
+
+        <span>
+            Console output:<br />
+            &nbsp;undefined<br />
+            &nbsp;3</span>
+
+
+        <span>&bull; <b>delete</b><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b>   Make an array elements value to undefined or remove an objects property.</span>
+                   
+        <span class="notice">NOTE: delete operator does not free memory, if so happens, it is merely a side-effect. JavaScript handles 
+                             garbage collection automatically and does not provide any way to free memory manually.</span>
+
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b>  true or false<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArray = [1,2,3];<br />
+            var myObj = {<br />
+                fname: "Hunter",<br />
+                lname: "Thompson",<br />
+                customArr: myArray;<br />
+            };<br /><br />
+
+            console.log(myObj.fname);<br />
+            delete myObj.fname;<br />
+            console.log(myObj.fname);<br />
+            delete myObj.customArr[0];<br />
+            console.log(myObj.customArr[0]);</code></span>
+
+        <span>
+            Console output:<br />
+            &nbsp;Hunter<br />
+            &nbsp;undefined<br />
+            &nbsp;undefined</span>
+
+
+		<span class="chapter-sub-title">Variables</span>
+
+
+		<span class="chapter-section-title">Variable naming rules for JavaScript</span>
+
+        <span>
+            &bull; Variable name must start with a letter, dollar ($) or underscore (_)<br />
+            &bull; Variable name can contain letters, underscores, digits and dollar signs<br />
+            &bull; Keywords cannot be used as variable names. See [ref .5: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords]
+        </span>
+
+
+		<span>Variable names are case-sensitive. In JavaScript it is common practice to use lower camelCase when naming variables.  
+			  Multiple variables can be defined separated by comma <i>(,)</i> until a semicolon <i>(;)</i> ends statement. Even newlines are
+			  acceptable:</span>
+
+        <code><span>
+            var a, b = 1,<br />
+            c = "Some string";
+        </code></span>
+
+
+		<span class="chapter-section-title">Variable Scope</span>
+
+
+		<span>JavaScript has global and local scope for variables. Variables declared inside a function (or method) or inside a code block defined by
+			  curly bracers ({}) belong to local scope and variables declared outside any function (or method) have global scope. Global scope variables
+			  are accessible by all scripts and functions in a web page. There is one exception; if you assign a value to variable inside a funcion
+			  without keyword "var", it becomes automatically global.</span>
+
+		<span>JavaScript varibale scope has an upwards chain which means if you have function inside function, child function can access its parent
+			  functions local variables.</span>
+
+        <code><span>
+            function a() {<br />
+                var x = 1;<br />
+                function b() {<br />
+                    console.log('value of parent function variable x =' + x); // Outputs 1 as the value of x<br />
+                }<br />
+            }
+        </code></span>
+
+		<span>ECMAScript 6 added new keyword <i>let</i> which allows variable creation that has smaller scope than function scope, variable has then
+			  block scope (ie. inside curly braces). Constants also share this same scope.</span>
+
+        <code><span>
+            var x = 1;<br />
+            {<br />
+                let temp = x;<br />
+            }<br /><br />
+
+            console.log(x, temp); // Outputs ReferenceError: temp is not defined
+        </code></span>
+
+		<span class="notice">NOTE: In JavaScript, objects and functions are variables.</span>
+
+
+		<span class="chapter-sub-title">Constants</span>
+
+
+		<span>ECMAScript 6 also introduced new keyword "const" that ensures that variable value can't be overridden. Constant variables in JavaScript
+			  only work with primitive values. Constants have to be initialized upon declaration or SyntaxError occurs.</span>
+
+        <code><span>
+            const MY_CONSTANT = 1;<br />
+            // Trying to redeclare constant variable produces "TypeError: Assignment to constant variable"<br />
+            MY_CONSTANT = 2; 
+        </code></span>
+
+		<span>There are six primitive data types and Object data type. But with JavaScript, primitive data types are not primitive per se,
+			  and have methods and properties also because when executing methods and properties JavaScript automatically treats
+			  primitive data types as an Object data type.</span>
+
+
+		<span class="chapter-sub-title">Primitive Data Types</span>
+
+
+        <span>&bull; <b>boolean</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Can hold "true" or "false" value.<br />
+            &bull; <b>undefined</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> If variable is not initialized but has been declared.<br />
+            &bull; <b>null</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Indicates that a variable points to no object or variable
+                is "nothing" that does not exist.<br /><br /></span>
+				
+                <span class="notice">NOTE: typeof null returns "object", not "null" for legacy reasons</span>
+
+        <span>&bull; <b>number</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Unlike programming languages that have different types for numbers, ie:
+                 short (16bit integer), long (64bit integer), float (64bit floating point) etc. 
+                 JavaScript has only one type of number that is 64-bit signed floating point.<br /><br /></span>
+                 
+                 <span class="notice">NOTE: Becouse JavaScript numbers are floating points, numbers are accurate up to 15 digits. 
+                                      Also floating point calculations are not precise, for example: 0.1 + 0.2 = 0.30000000000000004.
+                                      To overcome this, it helps to multiply/divide: (0.1 * 10 + 0.2 * 10) / 10 = 0.3</span>
+        <span>
+            Syntax for declaring number in hexadecimal format: 0xff       // 255<br />
+            Syntax for declaring number in octal format:       0xo377     // 255<br />
+            Syntax for declaring number in binary format:      0b11111111 // 255<br /><br />
+
+            Two special types of number literals exist, NaN (Not a Number) and Infinity/-Infinity.<br /></span>
+                 
+                 <span class="notice">NOTE: You can check NaN value with isNaN() -function and
+                                      Infinity/-Infinity value with isFinite() -function.</span>
+
+        <span>
+        &bull; <b>string</b><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> JavaScript strings are actually a collection of 16-bit integers using UTF-16
+                 encoding. Unicode code point escape codes for strings are supported since
+                 ECMAScript 6. You can access single character in a string with array style
+                 indexing that starts from zero. For example:</span>
+
+        <code><span>
+            var myStr = "This is a string";<br />
+            console.log(myStr[0] + myStr[8]);
+        </span></code>
+
+        <span>
+            Console output:<br />
+            &nbsp;Ta</span>
+
+        <span>Syntax for Unicode unit format: \uXXXX<br />
+              Syntax for Unicode code point format: \u{XXXX}</span>
+
+
+        <span class="notice">NOTE: If you concatenate two strings with the plus <i>(+)</i> operator, with a left hand string
+                             ending with a high surrogate code unit and right hand string starts with a low surrogate code unit,
+                             result will feature a surrogate code point.</span>
+
+        <span>
+            You can use escape characters with strings preceding backslash (\) character:<br />
+            \'    - Single quote<br />
+            \"    - Double quote<br />
+            \\    - Backslash<br />
+            \b    - Backspace<br />
+            \f    - Form Feed<br />
+            \n    - New Line<br />
+            \r    - Carriage Return<br />
+            \t    - Horizontal Tabulator<br />
+            \v    - Vertical Tabulator<br /><br />
+
+            With string data type, you can separate long text line to multiple
+            lines with singe backslash (\) character.</span>
+
+        <code><span>
+            var myStr = "This is a \<br />
+            multiline string assignment";
+        </code></span>
+
+        <span>
+            &bull; <b>symbol</b><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b>With Symbol, you can make objects or object's properties unique (almost private). 
+                                                       You create symbol with built-in method Symbol() without new -keyword. Because every
+                                                       Symbol has it's own unique ID and is attached to something, see the following example
+                                                       where object property is made not mutable:<br /><br />
+
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b></span>
+
+        <code><span>
+            var testSym = Symbol();<br /><br />
+
+            function myObject(symID = "eka") {<br />
+                [testSym] = "Hello World";<br />
+            }<br /><br />
+
+            var first = new myObject('first');<br />
+            var second = new myObject('second');<br />
+            var third = first;<br />
+            first.testSym = "FooBar";<br /><br />
+
+            console.log(first.testSym);<br />
+            console.log(second.testSym);<br />
+            console.log(third.testSym);<br /><br />
+
+        Console output:<br />
+         &nbsp;FooBar<br />
+        &nbsp;undefined<br />
+        &nbsp;FooBar</span></code>
+
+        <span>Methods: [TODO]<br /></span>
+
+
+            &bull; <b>object</b><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> JavaScript is object orientated (pun intented) scripting language but has exception
+                 to many other programming languages because there is no "real" classes in JavaScript. Before ES6 You could emulate class
+                 with function but when it comes to inheritance, objects inherit from other objects and not classes. You can also have 
+                 <i>static</i> and <i>dynamic</i> objects (actually all objects are dynamic in a way that you can add/remove any property
+                 from object at any time) when declaring them. All JavaScript primitive data types can also be objects if defined with <i>new</i>
+                 keyword. There are several ways to define an object. To define a method inside a class you use <i>function</i> declaration
+                 syntax. To create objects, you can use following syntaxes:<br /><br />
+
+                 1) Using the "new" keyword<br /><br /></span>
+
+        <code><span>
+            var myMath = new Math();
+        </span></code>
+
+        <span>2) Using an Object Literal</span>
+
+        <code><span>
+            var myObj = {firstname: "Hunter", lastname: "Thompson", age: 70, printInfo: function(dummyParam = "Hello ") {
+                            console.log(dummyParam + this.firstname + ' ' + this.lastname + ', age: ' + this.age);}};
+        </span></code>
+
+        <span><b>Explanation:</b><br />
+                Object Literal means that you both define and create an object in one statement.<br />
+                Syntax for Object Literals:<br />
+                      object declaration starts with code block ie. two curly braces ({}). Methods/properties are written
+                      in name:value pairs separated by comma (,). Spaces and line breaks are ignored so you could write
+                      above example more readable:</span>
+
+        <code><span>
+            var myObj = {<br />
+                firstname: "Hunter",<br />
+                lastname : "Thompson",<br />
+                age      : 70,<br />
+                printInfo: function(dummyParam = "Hello ") {<br />
+                                console.log(dummyParam + this.firstname + ' ' + this.lastname + ', age: ' + this.age);<br />
+                           }<br />
+                };</span></code>
+
+
+            <span class="notice">NOTE: If you call printInfo -method without (), it will return the function definition as a string.</span>
+
+            <span>The <i>this</i> keyword can be used to access objects properties/methods inside object. Syntax to access object
+                 methods/properties outside of Object declaration, you can use either the dot <i>(.)</i> operator or square braces
+                 <i>([])</i> with property/method name surrounded by either double quotes <i>(")</i> or single quote <i>(')</i>.
+                 For example:</span>
+
+            <code><span>
+                myObj.printInfo();<br />
+                myObj["printInfo"]('Morning ');
+            </span></code>
+
+            <span>In the above example, second line accesses myObj objects printInfo method using square braces with method
+                 name and parameter passing is done after that like normal function parameter passing, inside parentheses.<br /><br />
+
+                 As discussed in the operator section, you can delete Object properties/methods with keyword "delete" and
+                 add new properties/methods dynamically:</span>
+
+                   
+            <code><span>
+                delete myObj.printInfo;<br />
+                myObj.printInfo = function() { console.log('This is a new method, firstname property of this object \<br />
+                                                               holds value: ' + this.firstname); };<br />
+                myObj.printInfo();<br/><br />
+
+                Console output:
+                &nbsp;This is a new method, firstname property of this object holds value: Hunter
+            </span></code>
+
+            <span>Unlike other variables, JavaScript Objects are mutable: They are addressed by reference, not by value.
+                 So assigning two variables with the same object and accessing member variable with other will change
+                 the value of the objects property. Following the above example:</span>
+
+            <code><span>
+                var x = myObj;<br />
+                x.age = 50;<br />
+                console.log(x.age);<br />
+                console.log(myObj.age);<br /><br />
+
+                 Console output:<br />
+                  &nbsp;50<br />
+                  &nbsp;50</span></code>
+
+            <span>JavaScript supports <i>Method Chaining</i> syntax with objects, which means that when a method returns
+                 a reference to object itself, you can use returned objects methods in chain with dot <i>(.)</i> operator.
+                 For Example:</span>
+
+            <code><span>
+                var myObj = {<br />
+                name    : "",<br />
+                setName : function(name) {<br />
+                this.name = name;<br />
+                    return this;<br />
+                },<br />
+                getName : function() {<br />
+                    return this.name;<br />
+                }<br />
+                };<br /><br />
+
+                console.log(myObj.setName('Hunter S. Thompson').getName());<br />
+
+                 Console output:<br />
+                  &nbsp;Hunter S. Thompson</span></code>
+
+        <span>JavaScript is <i>loosely typed</i> or a <i>dynamic</i> language. Variables in JavaScript are not directly associated with any
+              particular value type, and any variable can be assigned and re-assigned values of all types. For example:</span>
+
+        <code><span>
+            var myVar = 22;   // myVar is number<br />
+            myvar = "22";     // myVar is string<br />
+            myvar = true;     // myVar is boolean
+        </code></span>
+
+        <span>Re-Declaring variable does not make it lose its value.</span>
+
+
+		<span class="chapter-section-title">Template Literals</span>
+
+
+		<span>ECMAScript 6 also introduced Template Literals that allow using expressions inside a string. Syntax is initializing
+		      string using backticks <i>(`)</i> instead of single <i>(')</i> or double quotes <i>("")</i>. Expressions are insterted
+              inside Template Literal string with syntax: dollar sign <i>($)</i> and curly bracers <i>({})</i>, where expression
+              comes inside curly bracers. You can also make function calls through expression.</span>
+
+        <code><span>
+            var myName = "Hunter S. Thompson";<br />
+            var myDynStr = `My name is: ${myName} and my age is ${getAge()}. Expression returns: ${1 == 2}`;<br /><br />
+
+            console.log(myDynStr); // Outputs: "My name is: Hunter S. Thompson and my age is 70. Expression returns false"<br /><br />
+
+            function getAge() {<br />
+                return 70;<br />
+            }
+        </code></span>
+
+		<span>You can also use Template Literals as a parameter to functions. This is discussed later on charapter "Functions".</span>
+
+
+        <span class="chapter-section-title">Strict mode</span>
+
+
+        <span>ECMAScript Strict mode was introduced already at ES5 but it has only lately gain widespread implementation from major browsers. 
+              You should be causious when using strict mode if you want to have backward support with older browser versions,
+              for example Internet Explorer below version 10.</span>
+
+        <span>Strict mode has different semantics from normal code:</span>
+            <ul>
+                <li>Eliminate some JavaScript silent errors by changing them to throw errors</li>
+                <li>Phobit some syntax likely to be defined in the future versions of ECMAScript</li>
+                <li>Prevent accidental creation of global variable by mistyping it and instead throws ReferenceError</li>
+                <li>You can't delete undeletable properties with delete keyword (like delete Object.prototype)</li>
+                <li>All properties of object must be uniquely named</li>
+                <li>Function parameters must be uniquely named</li>
+            </ul></span>
+
+        <span>Strict mode also makes some changes to making JavaScript a bit more secure. For example, when you use <i>this</i> keyword inside
+              a function, if it is not declared specifically, it used to belong to window object. With sctrict mode enabled, value of undeclared
+              <i>this</i> keyword is <i>undefined</i>.</span>
+
+        <span>To enable Strict mode, you must use it as a first statement in either the whole JavaScript file or inside function declaration.
+              You can write statement with either quote<i>(')</i> or doube quotes <i>("")</: <i>"use strict";</i> OR <i>'use strict';</i></span>
+
+        <span>Global scope for strict mode, first statement in JavaScript file:</span>
+
+        <code><span>
+            'use strict';<br />
+            var myVar = 1;<br /><br />
+
+            function myFunction() {<br />
+                myVar = 2;<br />
+                console.log('myVar: ' + myVar);<br />
+            }<br /><br />
+
+            myFunction();   // Outputs 2 to console
+        </span></code>
+
+        <span>Local scope inside function, must be first statement:</span>
+
+        <code><span>
+            function myFunction() {<br />
+                'use strict';<br />
+                myVar = 2;  // With strict mode enabled, does not create a global variable<br />
+            }<br /><br />
+
+            console.log('myVar: ' + myVar);   // Outputs ReferenceError; myVar is not defined to console
+        </code></span>
+
+
+        <span class="chapter-section-title">JavaScript modules</span>
+
+
+        <span>ES6 introduced modules which are separate JavaScript files that you can include in your script. Modules have automatically
+              strict mode enabled.</span>
+
+        <span>At the time of writing this, modules are not yet fully supported by major browsers, even at latest versions.</span>
+
+        <span>You use modules with keywords: <i>import</i> and <i>export</i>. There are two types of export, named and default. You can have
+              multiple named exports per module but only one default export.</span>
+
+        <span>To declare JavaScript module in HTML, use syntax: &lt;script type="module" src="myJavaScriptFile.js"&gt;</span>
+
+        <span>Syntax for default export: export default variable/function declaration/object declaration</span>
+
+        <span>Syntax for named export is same, just omit the <i>default</i> keyword and you can export what you want at the end of the
+              module file with encapsulated to curly bracers <i>({})</i> separated by comma.</span>
+
+        <span>Example for default export:</span>
+
+        <code><span>File: index.html<br />
+            &lt;script type="module" src="script.js"&gt;<br /><br />
+
+        File: script.js<br />
+            import customFunction from './mod-functions.js';   // We can rename default import to whatever we want<br />
+            customFunction();<br /><br />
+
+        File: mod-functions.js<br />
+            export default function checkConsole() {<br />
+                console.log('I am an default exported function');<br />
+        }<br /><br />
+
+        Console output:<br />
+        &nbsp;I am an default exported function</span></code>
+
+        <span>Example for named exports:</span>
+
+        <code><span>File index.html<br /><br />
+            &lt;script type="module" src="script.js"&gt;<br /><br />
+
+        File: script.js<br />
+            import {checkConsole, getAdd} from './mod-functions.js';<br />
+            checkConsole();<br />
+            console.log(getAdd());<br /><br />
+
+        File: mod-functions.js<br />
+            export function checkConsole() {<br />
+                console.log('I am an default exported function');<br />
+            }<br /><br />
+
+        function getAdd(a = 1, b = 1) {<br />
+            return a + b;<br />
+        }<br /><br />
+
+        export {getAdd};<br /><br />
+
+        Console output:<br />
+        &nbsp;I am an default exported function<br />
+        &nbsp;2</span></code>
+
+        <span><b>Explanation:</b><<br />
+                As you can see from syntax, you can use export keyword either in front of exported item or add export statement to the
+                end of the JavaScript file or use combination of both.
+        </span>
+
+		
+        <span class="chapter-section-title">Arrays and Sets</span>
+
+        
+        <span>In JavaScript arrays are a special type of objects. The <i>typeof</i> operator in JavaScript returns "object" for arrays.
+              To overcome this, you can use array objects in-build method Array.isArray(myArray) which will return true/false. Arrays
+              use zero based index numbers inside square brackets to access its elements. Syntax to declare array in different ways:
+        </span>
+
+        <code><span>
+            var myArray = [2,"saab","volvo"]; // Creates an array with 3 elements that have initial values<br />
+            var myArray = new Array(4); // Creates an array with 4 elements which values are all undefined<br />
+            var myArray = [];           // Creates empty array with one element which value is undefined<br />
+            var myArray = [[1,2],2,3];  // Multidimensional array
+        </code></span>
+
+        <span>Syntax to access array elements is brackets <i>([])</i> with index number:</span>
+
+        <code><span>
+            myArray[0]; // Returns first element of array<br />
+            myArray[0][0]; // Return fist element of 2 dimensional arrays first element
+        </code></span>
+
+        <span>If array has an element that holds string as a value, you can access individual string characters using multiarray syntax:</span>
+
+        <code><span>
+            var myArray = ["This is string"];<br />
+            console.log(myArray[0][0] + myArray[0][1]) // Outputs "Th"
+        </code></span>
+
+        <span>If you store objects inside array elements, you should access them by their property names syntax instead of dot <i>(.)</i> syntax.</span>
+
+        <code><span>
+            var myArray = ["test", {"name":"Hunter S. Thompson"}];<br />
+            console.log(myArray[1]['name']); // Outputs: Hunter S. Thompson
+        </code></span>
+
+        <span>Because arrays are special type objects in JavaScript, arrays can hold also functions as their value. Consider following example:</span>
+
+        <code><span>
+            function foobar() {<br />
+                console.log("foobar");<br />
+            }<br /><br />
+
+            var myArray = [foobar(), 2];<br />
+            myArray[0]; // runs function foobar()
+        </code></span>
+
+
+        <span class="chapter-sub-title">Spread example</span>
+
+
+        <span>You can use spread syntax multiple times:</span>
+
+        <code><span>
+            var numArray = [2, 3, 4];<br />
+            var numArray2 = [6, 7, 8, 9];<br />
+            var finalArray = [ 1, ...numArray, 5, ...numArray2, 10];<br />
+            console.log(finalArray);<br /><br />
+
+            Console output:<br />
+            &nbsp;[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        </span></code>
+
+
+        <span class="chapter-sub-title">Usefull array properties/methods</span>
+
+        <span>&bull; <b>length</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Returns number of array elements<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> Returns number of array elements<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+                
+        <code><span>
+            var myArr = [1, 2, 3];<br />
+            console.log(myArr.length);<br /><br />
+
+            Console output:<br />
+            &nbsp;3
+        </code></span>
+
+        <span>&bull;<b>pop()</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Removes the last element from an array. This method changes the original array<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> The removed element from the array; undefined if the array is empty<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1, 2, 3];<br />
+            console.log(myArr.pop());<br />
+            console.log(myArr);<br /><br />
+
+            Console output:<br />
+            &nbsp;3<br />
+            &nbsp;[1,2]
+        </code></span>
+
+        <span>&bull;<b>push(...newValues)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Adds one or more elements to the end of an array. This method changes the original array<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> Non zero based count of array elements after adding element(s)<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1];<br />
+            myArr.push(2, 3);<br />
+            console.log(myArr);<br /><br />
+
+        Console output:<br />
+        &nbsp;[1, 2, 3]
+        </code></span>
+
+        <span>&bull;<b>shift()</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Removes the first element from an array. This method changes the original array<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> Removed element<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1, 2, 3];<br />
+            console.log(myArr.shift());<br />
+            console.log(myArr);<br /><br />
+
+            Console output:<br />
+            &nbsp;1<br />
+            &nbsp;[2, 3]
+        </code></span>
+
+        <span>&bull;<b>unshift(...newValues)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Adds one or more elements to the beginning of an array. This method changes the original array<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> Non zero based count of array elements after adding elements(s)<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1];<br />
+            console.log(myArr.unshift(3,2));<br />
+            console.log(myArr);<br /><br />
+
+            Console output:<br />
+            &nbsp;3<br />
+            &nbsp;[3, 2, 1]
+        </code></span>
+
+        <span>&bull;<b>slice(start, end)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b>Returns an array with given zero based arguments as array indexes. Original array will not be changed<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Parameters:</b><br />
+                                            start - Integer<br />
+                                                Zero based index where to start. If undefined, index is set to 0. If greater than original
+                                                array element count, an empty array is returned. If negative index is given as parameter,
+                                                offset is set to start counting from the end of the array elements towards beginning.<br />
+                                            end (optional) - Integer<br />
+                                                Zero based index before which to end extraction so slice extracts up to but not including
+                                                end index. If omitted, end is set to arrays element count. If negative index is given,
+                                                offset is set to start counting from the end of the array elements towards beginning.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> Array containing the extracted elements<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1, 2, 3, 4, 5, 6];<br />
+            console.log(myArr.slice(2, 4));<br /><br />
+        
+            Console output:<br />
+            &nbsp;[3,4]
+        </span></code>
+
+        <span>&bull;<b>splice(start, deleteCount, ...items)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Changes the contents of original array by removing existing elements and/or adding new elements<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Parameters:</b><br />
+                                            start - Integer<br />
+                                                Zero based index at where to start changing the original array. If greater than the length of
+                                                the array, index is set to the current length of the array (ie. last element)<br />
+                                            deleteCount (optional) - Integer<br />
+                                                Number how many elements should be removed from original array. If omitted or value is greater
+                                                than the length of the original array, then all array elements will be deleted. If set to 0
+                                                or false, no elements are removed. In this case, you should specify at least one new element
+                                                with items parameter<br />
+                                            items (optional) - Mixed<br />
+                                                Elements to add to original array, beginning from start parameter. If omitted, splice() method
+                                                only removes elements from array.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> An array containing the deleted elements. If only one element is removed, an array of one
+                                                             element is returned. If no elements are removed, an empty array is returned.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [4, 5, 6];<br />
+            console.log(myArr.splice(0, false, 1, 2, 3));<br />
+            console.log(myArr);<br />
+            console.log(myArr.splice(3, 3));<br />
+            console.log(myArr);<br /><br />
+
+            Console output:<br />
+            &nbsp;[]<br />
+            &nbsp;[1, 2, 3, 4, 5, 6]<br />
+            &nbsp;[4, 5, 6]<br />
+            &nbsp;[1, 2, 3]</span></code>
+
+        <span>&bull;<b>concat(arrayToMerge)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Merges two arrays together. Does not change original arrays<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> New array that holds values of both arrays<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1, 2, 3], myArr2 = [4, 5, 6];<br />
+            console.log(myArr.concat(myArr2));<br /><br />
+    
+            Console output:<br />
+            &nbsp;[1, 2, 3, 4, 5, 6]
+        </span></code>
+
+        <span>&bull;<b>indexOf(valueToSearch, startIndex)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Finds first occurance of array value using strict equality (same as === operator)<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Parameters:</b><br />
+                                            valueToSearch - Mixed<br />
+                                                Value to locate in array<br />
+                                            startIndex (optional) - Integer<br />
+                                                Zero based index where to start searching value. If index is larger than number of array elements,
+                                                -1 is returned and no search will be done. Default value 0 (entire array is searched)<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> First index (zero based) of searched value or -1 if not found<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1, 2, "foobar", 1];<br />
+            console.log(myArr.indexOf(1, 2));<br /><br />
+
+            Console output:<br />
+            &nbsp;3
+        </code></span>
+
+        <span>&bull;<b>lastIndexOf(valueToSearch, startIndex)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Same as indexOf() but starts search from the end of array towards beginning<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Parameters:</b><br />
+                                            valueToSearch - Mixed<br />
+                                                Value to locate in array<br />
+                                            startIndex (optional) - Integer<br />
+                                                Array index from where to start searching from end towards beginning. Default value: array element count -1
+                                                so whole array is searched. If startIndex is greater than array element count, the whole array will be
+                                                searched.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1, 2, "foobar", 1];<br />
+            console.log(myArr.lastIndexOf(1));<br /><br />
+
+            Console output:<br />
+            &nbsp;3
+        </span></code>
+
+        <span>&bull;<b>join(separator)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Joins all array elements into a string with given separator<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Parameters:</b><br />
+                                            separator (optional) - String<br />
+                                                A string which to use as separator when constructing string from array elements. If omitted,
+                                                default value is comma (,). If separator is an empty string, all elements are joined without
+                                                any characters in between them.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> String that contains all array elements separated by separator parameter if given<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1, 2, 3, "foobar!"];<br />
+            console.log(myArr.join('-'));<br /><br />
+
+            Console output:<br />
+            &nbsp;1-2-3-foobar!
+        </code></span>
+
+        <span>&bull;<b>map(callbackFunction(currentValue, index, array), thisArg)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Runs callbackFunction to all array elements, starting from beginning of array. Does not modify the original array<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Parameters:</b><br />
+                                            callbackFunction - Function name (String) or statement<br />
+                                                Callback function will be provided three arguments by map() method:<br />
+                                                    currentValue - Mixed<br />
+                                                        Current value being processed in the array<br />
+                                                    index (optional) - Integer<br />
+                                                        Index number of the currently processing array element<br />
+                                                    array (optional) - Array<br />
+                                                        Original array that the map is processing<br />
+                                            thisArg (optional) - Value to use as "this" when executing callback<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> Array with each element being the result of the callback function<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myArr = [1, 2, 3];<br />
+            console.log(myArr.map(value => value * 2));<br />
+            console.log(myArr.map(triple));<br /><br />
+
+            function triple(value, index, array) {<br />
+                console.log('Multiplying array index: ' + index + ' value: ' + value + ' from array: ' + array + ' with 3');<br />
+                return value = value * 3;<br />
+            }<br /><br />
+            
+            Console output:<br />
+            &nbsp;[2, 4, 6]<br />
+            &nbsp;Multiplying array index: 0 value: 1 from array: 1,2,3 with 3<br />
+            &nbsp;Multiplying array index: 1 value: 2 from array: 1,2,3 with 3<br />
+            &nbsp;Multiplying array index: 2 value: 3 from array: 1,2,3 with 3<br />
+            &nbsp;[3, 6, 9]
+        </span></code>
+
+        <span>For full list of array properties/methods, see [Ref. 2]</span>
+
+
+		<span class="chapter-sub-title">Sets</span>
+
+
+        <span>Set in JavaScript is almost same as array except set can only hold values that are unique and have
+              their own properties bacause sets, like arrays in JavaScript, are objects. Basic usage is to create
+              new Set object and use its methods to manipulate set. If you give parameters to Set object when
+              creating it with new operator, you need to provide Iterator parameter like array. Syntax to access
+              set elements is same as in arrays, brackets ([]) with index number.</span>
+
+        <code><span>
+            var mySet = new Set([3, 4]);<br />
+            mySet.add(1);<br />
+            mySet.add(2);<br />
+            mySet.add(2);                 // Does not get added<br />
+            console.log(mySet.entries())  // Outputs: SetIterator "{3, 4, 1, 2}"
+        </code></span>
+
+
+		<span class="chapter-sub-title">Usefull set properties/methods</span>
+
+
+
+        <span>&bull;<b>size</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Returns number of elements in a set, similar to Array.length<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> Non zero based integer of element count in set<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var mySet = new Set();<br />
+            console.log(mySet.size);<br /><br />
+
+            Console output:<br />
+            &nbsp;0
+        </span></code>
+
+            <span class="notice">NOTE: Above example outputs 0 to console because we have not yet added any elements to set so it has zero elements</span>
+
+        <span>&bull;<b>add(value)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Adds new value to set<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Parameter:</b><br />
+                                            value - mixed<br />
+                                                Appends new element to end of set. If set allready contains an element with same value, nothing happens.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> Current set Object<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var mySet = new Set([1]);<br />
+            console.log(mySet.add(2));<br /><br />
+
+            Console output:<br />
+            &nbsp;{1, 2}
+        </code></span>
+
+        <span>&bull;<b>delete(value)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Removes element from set if it has element that holds same value as given parameter<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> True if successfull, false else<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var mySet = new Set();<br />
+            mySet.add(1).add(2).add(3);<br />
+            console.log(mySet.delete(2));<br /><br />
+
+            Console output:<br />
+            &nbsp;true
+        </span></code>
+
+        <span>&bull;<b>clear()</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Removes all elements from a set Object<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> undefined<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var mySet = new Set([1, 2, 3]);<br />
+            mySet.clear();<br />
+            console.log(mySet.size);<br /><br />
+
+            Console output:<br />
+            &nbsp;0
+        </span></code>
+
+        <span>&bull;<b>has(value)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Searches set for given parameter value<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> true if element with same value as given parameter value exists, otherwise false<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var mySet = new Set([1,3]);<br />
+            console.log(mySet.has(1));<br />
+            console.log(mySet.has(2));<br /><br />
+
+            Console output:<br />
+            &nbsp;true<br />
+            &nbsp;false
+        </span></code>
+
+        <span>For full list of set properties/methods, see [Ref. 3]</span>
+
+
+		<span class="chapter-section-title">Type casting</span>
+
+
+        <span>JavaScript has automatic type casting whenever possible. Results may not always be what you expect:
+
+
+        <code><span>
+            "5" + 2    // returns "52" because 2 is converted to string and then concatenated<br />
+            "5" - 2    // returns 3 because 5 is converted to integer<br />
+            "5" * "2"  // returns 10 because "5" and "2" are converted to integers<br />
+        </code></span>
+
+
+		<span class="chapter-section-title">For manual type cast, you can use following JavaScript Objects</span>
+
+
+        <span>&bull;<b>Number(value)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> When used without <i>new</i> keyword, just like you would use function,
+                                                       converts given value to number data type if possible.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> value parameter converted into number data type, otherwise NaN<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myVar = "1", mySecondVar = 2;<br />
+            console.log(Number(myVar) + mySecondVar);<br /><br />
+
+            Console output:<br />
+            &nbsp;3
+        </span></code>
+
+        <span>&bull;<b>String(value)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> As with Number object, String object can be used like function when used without keyword new. Converts given value
+                                                            to string data type if possible.<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> value parameter converted into string data type if possible<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myObj = {name:"Hunter S. Thompson"}, myVar = 150;<br />
+            console.log(String(myObj));<br />
+            console.log(String(myVar));<br /><br />
+
+            Console output:<br />
+            &nbsp;[object Object]<br />
+            &nbsp;150
+        </span></code>
+
+        <span>&bull;<b>Boolean(value)</b><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> Following the two above examples, used in a function manner, converts value to boolean<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Return value:</b> true or false<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<b>Example usage:</b><br /><br /></span>
+
+        <code><span>
+            var myNum = 1, mySecondNum = 0;<br />
+            console.log(Boolean(myNum));<br />
+            console.log(Boolean(mySecondNum));<br /><br />
+
+            Console output:<br />
+            &nbsp;true<br />
+            &nbsp;false
+        </span></code>
+
+
+		<span class="chapter-section-title">Other type cast ways</span>
+
+
+        <span>For strings, you can also use functions parseFloat(), which returns a floating point number from a string if possible and parseInt(),
+              which returns an integer value from a string if possible. Example:</span>
+
+        <code><span>
+            var myStr = "1.99.11";<br />
+            console.log(parseFloat(myStr));<br />
+            console.log(parseInt(myStr))<br /><br />
+
+            Console output:<br />
+            &nbsp;1.99<br />
+            &nbsp;1
+        </span></code>
+
+        <span>As you can see from console output, parseFloat() function takes only first dot (.) character into account and parseInt() function does
+              same.</span>
+
+        <span>Numbers can be converted to fixed decimal point using method toPrecision() which takes argument of number of decimals and returns
+              result rounded up.</span>
+
+        <code><span>
+            var myNum = 1.23456789;<br />
+            console.log( myNum.toPrecision(5));  // Outputs "1.2346"
+        </code></span>
+
+        <span>Casting number to string can also be done using toString() method (but according to MDN web docs, String object used like a function is
+              better option [Ref. 4]):</span>
+
+        <code><span>
+            var x = 4;<br />
+            console.log(x.toString()); // Outputs "4"
+        </code></span>
+
+        <span>We already covered how to type cast array to string but let's revise it. Use arrays join() method:</span>
+
+        <code><span>
+            var x = [1, 2, 3, 4];<br />
+            console.log(x.join());   // Outputs "1,2,3,4"<br />
+            console.log(x.join('')); // Outputs "1234"
+        </code></span>
+
+
+		<span class="chapter-sub-title">Control Structures</span>
+
+
+        <span>Again, comparing to C++/Java, JavaScript has the following same basic control structures that both languages:</span>
+
+        <code><span>
+            if(value) {<br />
+            } else if(value) {<br />
+            } else {<br />
+            }<br /><br />
+
+            switch(value) {<br />
+                case 'value':<br />
+                    break;<br />
+                default:<br />
+                    break;<br />
+            }<br /><br />
+
+            for(value = initialized; value < endForLoop; value++) {<br />
+            }<br /><br />
+
+            while(statement) {<br />
+            }<br /><br />
+
+            do {<br />
+            }while(statement)
+        </code></span>
+
+
+		<span class="chapter-section-title">JavaScript specific control structures</span>
+
+
+        <span>JavaScript has for/in and for/of loops that are used to loop through objects properties.<br /><br />
+              for/in example usage:</span>
+
+        <code><span>
+            var myObj = {a:1,name:"test",calc:function(param1){return param1 + this.name;}};<br /><br />
+
+            for(let property in myObj) {<br />
+                console.log(property + ': ' + myObj[property]);<br />
+            }<br /><br />
+
+            Console output:<br />
+            &nbsp;a: 1<br />
+            &nbsp;name: test<br />
+            &nbsp;calc: function(param1){return param1 + this.name;}
+        </span></code>
+
+		  <span class="notice">NOTE: you can't use dot operator syntax! If you use: <code>console.log(myObj.x);</code> it will output <i>undefined</i></span>
+
+        <span>for/of uses right hand operands [Symbol.iterator] method and calls it for each iteration until it has no more iterations left. So you have to 
+              have an iteration object to use for/of loop. Example usage:<br /></span>
+
+        <code><span>
+            var myStr = "A string";<br /><br />
+
+            for(let codeUnit of myStr) {<br />
+                console.log(codeUnit);<br />
+            }<br /><br />
+
+            Console output:<br />
+            &nbsp;T<br />
+            &nbsp;e<br />
+            &nbsp;x<br />
+            &nbsp;t
+        </span></code>

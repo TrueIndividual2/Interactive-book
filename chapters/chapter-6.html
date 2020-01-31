@@ -1,0 +1,404 @@
+		<span class="chapter-title">Chapter 6: JavaScript Objects - Deeper look</span>
+
+		<span>
+			As we learned before, JavaScript actually treats every data type, even the primitive data types, as objects by automatically
+			type casting them to object data type in certain situations. One scenario would be that you want to know the how many
+			characters your string has:
+		</span>
+
+<pre><code>var myStr = "Hello World!";  // Data type is "String"
+console.log(myStr.length);   // JavaScript type casts string to object and you can access String 
+                             // objects length property, which will return number 12
+</code></pre>
+
+		<span class="chapter-sub-title">Prototype Chain</span>
+
+		<span>
+			Inheritance in JavaScript works through objects private property called <b><i>prototype</i></b>, which is a pointer to another object.
+			That another object also has private property, prototype, that points to another object and so on until object's property
+			is found or prototype is null. This is called the "Prototype chain". On top of the prototype chain sits the Object from
+			which almost all JavaScript objects are inherited of. If you want to write complex code with good performance, it is essential
+			to understand JavaScript's prototype chain.
+		</span>
+
+		<span>Let's take a couple examples of inheritance/prototype chain in JavaScript:</span>
+
+<pre class="no-style">
+<b>1) Basic prototype chain</b>
+
+</pre>
+
+<pre><code>var trickHoisting = false;
+
+function simpleObj() {
+    this.name            = "Elliot Alderson";
+    this.age             = 28;
+    this.switchHoisting  = function() { trickHoisting = true; }
+}
+
+var pChain = new simpleObj(); // Using new keyword with assignment statement, makes simpleObj
+                              // a descendant of the Object
+console.log(pChain.toString());
+pChain.switchHoisting();
+  
+if(trickHoisting)
+    simpleObj.prototype.toString = function() { return 'Overrided Object.toString() method 
+                                                        in prototype chain'; };
+  
+console.log(pChain.toString());
+</code></pre>
+<pre class="no-style">Explanation:
+  When we create new instance of simpleObj with <i>new</i> keyword, it becomes descendant of the Object.
+  We then try to access method <b>toString()</b> which is not declared in simpleObj so JavaScript starts
+  traversing the prototype chain:
+ 
+  <i style="font-weight: normal;">pChain.toString() not found --> pChain.prototype.toString() not found --> pChain.prototype.prototype.toString()
+  found at Object.prototype.toString() so execute and end traversing prototype chain.</i>
+
+  Above example also uses a hack to avoid JavaScript hoisting for this example. We declare global
+  variable <b>trickHoisting</b> which prevents hoisting in our example so that we can modify the
+  prototype chain dynamically. After calling method <b>switchHoisting()</b> in our instance of
+  <b>simpleObj()</b>, we change variable trickHoisting to true. This allows us to create custom 
+  toString() method to our simpleObj prototype. After this, prototype chain traverses:
+
+  <i style="font-weight: normal;">pChain.toString() not found --> pChain.prototype.toString() found so execute and 
+  end traversing prototype chain.</i>
+
+</pre>
+
+		<span class="notice">NOTE: This is also called method overriding</span>
+
+<pre class="no-style">
+<b>2) Method inheritance</b>
+
+</pre>
+
+		<span>
+			JavaScript does not have methods in the same way as term is usually understood in object oriented languages. You create
+			"methods" in JavaScript adding function as a property of object. When an inherited "method" (function) is executed,
+			value of "this" keyword points to the inheriting object, not to the prototype object where the function is an own
+			property.
+		</span>
+
+<pre><code>function protoObj() {
+    this.name    = "Hunter S. Thompson";
+    this.age     = 60;
+    this.getInfo = function() {
+        return this.name + ': ' + this.age;
+    }
+}
+
+var protoOrig = new protoObj();
+
+// Create new object using an existing object as a parameter to create new prototype property
+var protoInher = Object.create(protoOrig);   
+protoInher.age = 80;
+
+console.log(protoOrig.getInfo());   // this refers to protoObj
+console.log(protoInher.getInfo());  // this refers to protoInher object
+</code></pre>
+
+<pre class="no-style">
+Console output:
+ Hunter S. Thompson: 60
+ Hunter S. Thompson: 80
+
+<b>3) Property shadowing</b>
+
+</pre>
+
+		<span>
+			Property shadowing is a term that simply means if you have declared a class that has a property and that class has a
+			prototype with same property, class property is used and not "shadowed" prototype property.
+		</span>
+
+<pre><code>function shadowExample() {
+    this.name = "Hunter S. Thompson";
+    this.age  = 70;
+}
+
+var myShadowExample = new shadowExample();
+shadowExample.prototype.age = 80;
+console.log(myShadowExample.age);   // Outputs 70
+</code></pre>
+
+		<span class="chapter-section-title">Different ways to create objects and the resulting prototype chain</span>
+
+		<span>Objects created with syntax constructs:</span>
+
+<pre><code>var noProtoObj = {foo: 'bar'};
+console.log(noProtoObj.__proto__);   // Check the console to see 
+
+</code></pre>
+		<span>
+			Above example show through console that even though noProtoObj Object is a descendant of the Object, the Object's prototype
+			is null. Prototype chain: noProtoObj --> Object.prototype --> null
+		</span>			
+
+<pre><code>var noProtoArr = ['foo', 'bar'];
+console.log(noProtoArr.__proto__.__proto__);
+</code></pre>
+
+		<span>
+			Above example shows prototype chain when using arrays. Arrays inherit from Array.prototype but without the new keyword,
+			prototype chain is: noProtoArr --> Array.prototype --> Object.prototype --> null
+		</span>
+
+<pre><code>function noProtoFunc() { return 'foobar'; }
+console.log(noProtoFunc.__proto__.__proto__);
+</code></pre>
+
+		<span>
+			Functions inherit from Function.prototype and again, without using the new keyword, prototype chain is:
+			noProtoFunc --> Function.prototype --> Object.prototype --> null
+		</span>
+
+
+		<span>Objects with constructors in their declaration (must use <i>new</i> operator):</span>
+
+<pre><code>function myConstructorExample() {
+    this.name = "";
+}
+
+var constructorObj = new myConstructorExample();
+console.log(constructorObj.__proto__);   // Returns {constructor: f}
+</code></pre>
+
+		<span>
+			When you create object instance with new keyword, a constructor function for object is called. Above example's prototype
+			chain is: constructoObj.prototype
+		</span>
+
+
+		<span>Using Object.create(). The prototype of this object is the first argument of the method:</span>
+
+<pre><code>var createPrototypeForMe = {foo: 'bar'};
+var thxForCreating       = Object.create(createPrototypeForMe);
+var nullObj              = Object.create(null);
+var normalPrototype      = new String('foobar');
+var inheritedPrototype   = Object.create(normalPrototype);
+
+console.log(noPrototypeObj.__proto__);     // {constructor: f...}
+console.log(stillNoPrototype.__proto__);   // {foo: "bar"}
+console.log(nullObj.__proto__);            // undefined
+console.log(finallyPrototype.__proto__);   // String
+console.log(iHavePrototype.__proto__);     // String {"foobar"}
+</code></pre>
+
+		<span>
+			Object.create() global method creates a new instance of given object parameter and provides it with a prototype, just like with 
+			using new keyword to create new object instance.
+		</span>
+
+
+		<span>Using JavaScript "Classes"</span>
+
+<pre><code>class Car {
+    constructor(model, color) {
+        this.model = model;
+        this.color = color;
+    }
+}
+
+class Mercedes extends Car {
+    constructor(color) {
+        super('Mercedes Benz', color);
+    }
+
+    get carInfo() {
+        return this.model + ' - ' + this.color;
+    }
+}
+
+var myCar = new Car();
+</code></pre>
+
+		<span>
+			Prototype chain with above example with classes is:
+			Car.prototype.constructor --> Mercedes.prototype.constructor --> Object.prototype --> null
+		</span>
+
+		<span class="chapter-section-title">Performance impact</span>
+
+		<span>
+			JavaScript allways traverses to the end of the prototype chain so if you have long chain and you are trying to access a object property
+			that does not exist, the whole prototype chain is still traversed. Also, when iterating over the properties of an object, every
+			enumerable property that is on the prototype chain will be enumerated (prototype is looked recursively).
+		</span>
+
+		<span>You can use Objects hasOwnProperty() -method to check if property exists in the current object and not traverse the prototype chain.</span>
+
+		<span class="chapter-sub-title">Proxies</span>
+
+	<span>JavaScript provides a Proxy Object that can be used to define custom behavior for fundamental operations like property lookup,
+aggignment, enumeration, function invocation etc. in a target object. Proxy object uses so called "traps" to detect operation
+on a target object and you can define custom behavior what happens when trap is executed.</span>
+
+<span>You create a new Proxy object with normal object creation syntax with new keyword and two parameters, target and proxyhandler:</span>
+
+<pre><code>var proxiedObject = new Proxy(targetObj, handlerObj);</code></pre>
+
+<span>List of Proxy traps:</span>
+<ul>
+	<li>getPrototypeOf()             - Object.getPrototypeOf</li>
+	<li>setPrototypeOf()             - Object.setPrototypeOf</li>
+	<li>isExtensible()               - Object.isExtensible</li>
+	<li>preventExtensions()          - Object.preventExtensions</li>
+	<li>getOwnPropertyDescriptor()   - Object.getOwnPropertyDescriptor</li>
+	<li>defineProperty()             - Object.defineProperty</li>
+	<li>has()                        - A trap for the "in" operator</li>
+	<li>get()                        - A trap for getting property values</li>
+	<li>set()                        - A trap for setting property values</li>
+	<li>deleteProperty()             - A trap for the "delete" operator</li>
+	<li>ownKeys()                    - A trap for Object.getOwnPropertyNames and Object.getOwnPropertySymbols</li>
+	<li>apply()                      - A trap for a function call. NOTE: NOT for a method call</li>
+	<li>construct()                  - A trap for the "new" operator</li>
+</ul>
+
+<span>Example for using Proxy:</span>
+
+<pre><code>var Car = {
+  name      : "Ferrari",
+  color     : "Red",
+}
+
+var ProxyHandler = {
+  get: function() {
+    console.log('Proxy detected getting property value');
+  },
+  set: function(target, thisArg, argumentsList) {
+    console.log('Proxy detected setting property value');
+    target.color = "Black";
+  },
+}
+
+var proxiedCar = new Proxy(Car, ProxyHandler);
+proxiedCar.color = 'Yellow';
+console.log(Car.color);
+
+Console output:
+ Proxy detected setting property value
+ Black
+</code></pre>
+
+<span>[TODO]Proxy traps can also take parameters...
+
+[TODO: explanation that apply only effects functions, not methods]
+
+
+Built in JavaScript constructors (Classes):
+* Object();
+* String();
+* Number();
+* Boolean();
+* Array();
+* RegExp();
+* Function();
+* Date();
+      
+See APPENDIX: A for reference</span>
+
+		<span class="chapter-sub-title">Object prototype</span>
+
+	<span>You can modify object constructor dynamically with objects prototype method. For example, using above "Class" Person and adding one property and 
+one method:</span>
+
+<pre><code>Person.prototype.address = "";
+Person.prototype.getFullName = function() {
+  return this.fname + " " + this.lname;
+}
+</code></pre>
+
+Let's have a closer look about common / usefull properties and methods of JavaScript standard built-in objects. I'm going
+to cover only handfull of these objects, including primitive data types that are type casted to objects, Math, Date and
+??? You can see full list from [Ref. 5]
+
+Usefull Object properties/methods:
+-----------------------------------
+* Object.seal(object)
+    Description:    "Seales" given parameter object which means that it prevents adding/removing objects properties or
+                    methods. Values of properties can still be changed though. Notice that you use global object
+                    "Object" method seal().
+    Parameter:      object - Object
+                      The object to seal
+    Return value:   Object that was passed to the method as parameter
+    Example usage:
+
+      var myObj = {
+        name      : "Hunter S. Thompson",
+        age       : 70,
+        profession: "Journalist and Author",
+        getValues : function() { return this.name + ': ' + this.age; }
+      };
+
+      delete(myObj.profession);
+      Object.seal(myObj);
+      myObj.addedProperty = "Silently fails";
+      console.log(myObj.getValues() + ': ' + myObj.addedProperty);      
+
+    Console output:
+     Hunter S. Thompson: 70: undefined
+
+* Object.isSealed(object)
+    Description:    Getter method to check if given parameter object is sealed
+    Parameter:      object - Object
+                      The object which sealed state to check
+    Return value:   true/false
+    Example usage:
+
+      var myObj = {name:"Hunter S. Thompson"}, mySecondObj = {name:"Timothy Leary"};
+
+      Object.seal(myObj);
+      console.log('myObj is sealed: ' + Object.isSealed(myObj) + ' / ' + 'mySecondObj is sealed: ' + Object.isSealed(mySecondObj));
+
+    Console output:
+     myObj is sealed: true / mySecondObj is sealed: false
+
+* Object.freeze(object)            
+    Description:    "Freezes" given parameterobject. Freezing means that it prevents objects properties and methods to be 
+                    added/modified/removed. Notice that you use global object "Object" method freeze().
+    Parameter:      object - Object
+                      The object to freeze
+    Return value:   Object that was passed to the method as parameter
+    Example usage:
+
+      var myObj = {
+        name      : "Hunter S. Thompson",
+        age       : 70,
+        getValues : function() { return this.name + ': ' + this.age; }
+      };
+
+      myObj.age = 60;
+      console.log(myObj.getValues());
+      Object.freeze(myObj);
+      myObj.age = 70;  // Fails silently
+      console.log(myObj.getValues());
+
+    Console output:
+      Hunter S. Thompson: 60
+      Hunter S. Thompson: 60
+
+    NOTE: You can also freeze an array
+
+* Object.isFrozen(object)
+    Description:    Getter method to check wether given parameter object is frozen
+    Parameter:      object - Object
+                      The object which frozen state to check
+    Return value:   true/false
+    Example usage:
+
+      var myObj = {name:"Hunter S. Thompson"}, mySecondObj = {name:"Timothy Leary"};
+
+      Object.freeze(myObj);
+      console.log('myObj is frozen: ' + Object.isFrozen(myObj) + ' / ' + 'mySecondObj is frozen: ' + Object.isFrozen(mySecondObj));
+
+    Console output:
+     myObj is frozen: true / mySecondObj is frozen: false
+
+
+For full list of methods and properties, see [Ref. 6]
+
+Usefull JavaScript built-in objects
+------------------------------------
+
+For full list, see [Ref. 5]
